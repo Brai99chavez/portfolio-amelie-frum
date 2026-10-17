@@ -188,6 +188,20 @@ fs.writeFileSync(path.join(DIST, "_headers"),
 `);
 fs.writeFileSync(path.join(DIST, "robots.txt"), REVISION ? "User-agent: *\nDisallow: /\n" : "User-agent: *\nAllow: /\n");
 
+/* ---- 3b) todo lo que piden las páginas tiene que estar en dist/ ----
+   Conectado a GitHub, Netlify arma el sitio sin que nadie lo mire: si falta un archivo
+   (no se subió al repo, se borró de assets/), el build falla en vez de publicar una foto rota. */
+const missing = new Set();
+for (const f of ["index.html", "trabajos.html", "assets/css/site.css", "assets/js/app.js"]) {
+  for (const [ref] of fs.readFileSync(path.join(DIST, f), "utf8").matchAll(/assets\/[\w./-]+\.\w+/g)) {
+    if (!fs.existsSync(path.join(DIST, ref))) missing.add(ref);
+  }
+}
+if (missing.size) {
+  console.error(`\n✗ Las páginas piden ${missing.size} archivo(s) que no están en dist/ (¿falta en assets/ o en el repo?):\n  ${[...missing].join("\n  ")}\n`);
+  process.exit(1);
+}
+
 /* ---- 4) resumen ---- */
 function dirSize(d) { let n = 0; for (const e of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, e.name); n += e.isDirectory() ? dirSize(p) : fs.statSync(p).size; } return n; }
 const heroVs = T.variantsOf(M, C.HERO.image).vs.filter((v) => v.role === "card");   // lo que baja un celular/escritorio normal; en retina baja además la "big"
