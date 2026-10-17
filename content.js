@@ -57,7 +57,7 @@ const IMAGES = {
   "brujas-set":      { g: "brujas", f: "20251205_111503.jpg", alt: "El set de la cocina de brujas en pleno rodaje: softbox colgado, jirafa de micrófono y el equipo trabajando." },
   "brujas-monitor":  { g: "brujas", f: "20251205_112500.jpg", alt: "Un monitor de dirección muestra la toma, con la claqueta en cuadro, en el set de la cocina de brujas." },
 
-  /* — Portada: backstage de Brujas, viudas y viejas (elegida por Braian: «de portada alguna del backstage») — */
+  /* — Portada: backstage de Brujas, viudas y viejas — */
   "backstage-set": { g: "brujas", f: "20251205_111538.jpg", alt: "Backstage del rodaje de «Brujas, viudas y viejas»: el equipo trabaja con micrófono de jirafa, softbox y reflectores alrededor del set de la cocina de brujas, mientras las actrices están sentadas a la mesa." },
 
   /* — Retrato de ella en el baño con grafitis (808): la foto de la PORTADA desde el 2026-10-14 — */
@@ -156,7 +156,7 @@ const VIDEOS = {
   "808-show":          { g: "808", f: "20170316_174553A.mp4", from: 14, dur: 6, loop: true, crop: "iw*0.96:ih*0.96:iw*0.02:ih*0.04", alt: "Un artista canta con anteojos de sol bajo el neón rosa del rayo de 808 Trap Party." },
   "808-dj":            { g: "808", f: "20170316_122844A.mp4", from: 19.5, dur: 6, loop: true, crop: "iw*0.96:ih*0.96:iw*0.02:ih*0.04", alt: "Las manos del DJ sobre la consola, en 808 Trap Party." },
   "808-publico":       { g: "808", f: "20170316_190957A.mp4", from: 8, dur: 6, loop: true, crf: 28, crop: "iw*0.96:ih*0.96:iw*0.02:ih*0.04", alt: "El público de 808 Trap Party frente al escenario, bajo el neón rosa." },
-  // eventos sociales (cámara Sony). C0030: lo pidió Braian (2026-10-14); muestra a una quinceañera y a un nene → autorización pendiente
+  // eventos sociales (cámara Sony)
   "eventos-quince":    { g: "eventos", f: "C0030.MP4", from: 0.2, dur: 7, loop: true, alt: "En un trono blanco con luces y letras iluminadas, una chica de vestido blanco abraza a un nene de traje que sonríe a cámara." },
   "eventos-boda":      { g: "eventos", f: "C0028.MP4", from: 5, dur: 6, loop: true, crf: 28, alt: "La entrada de una boda: la novia, con corona de flores, saluda a los invitados en la puerta." },
   "sol-loop":          { g: "sol", f: "PILOTO.mp4", from: 17, dur: 6, loop: true, crf: 28, alt: "Primer plano de la protagonista de «Cuando el sol deja de salir», iluminada por la pantalla del celular en la oscuridad." },
@@ -166,15 +166,12 @@ const VIDEOS = {
 /* ------------------------------------------------------------ */
 
 const SITE = {
-  // CAMBIAR DESPUÉS: confirmar cómo figura. Sus cuentas dicen «frum» (@amelie.frum, frumamelie@gmail.com); su Readymag
-  // la escribe estilizada «Amélie Früm»; y el collage de modelaje dice «Amelie Daira» (¿nombre artístico?).
-  // Material del 2026-10-14: su canal de YouTube se llama «Amélie Früm» y los créditos de «Testigo» dicen
-  // «PRODUCCIÓN Amélie Früm Camerlinckx». Dos fuentes suyas con tildes: proponerle «Amélie Früm».
+  // CAMBIAR DESPUÉS: confirmar con ella cómo quiere que figure su nombre (con o sin tildes).
   name: "Amelie Frum",
   role: "Productora, guionista y filmmaker",   // sus palabras (tagline de su Readymag)
   lang: "es-AR",
   description: "Amelie Frum — productora, guionista y filmmaker en Buenos Aires. Ficción corta, videoclips, transmisiones en vivo, eventos y fotografía.",
-  location: "Ciudad Autónoma de Buenos Aires",   // lo dijo ella (WhatsApp, 2026-10-13)
+  location: "Ciudad Autónoma de Buenos Aires",
   year: new Date().getFullYear(),
 };
 
@@ -182,14 +179,14 @@ const HERO = {
   eyebrow: "Productora · guionista · filmmaker",
   title: ["Escribo,", "produzco", "y dirijo."],   // la última línea lleva el acento
   lead: "Cine corto, videoclips, transmisiones en vivo y eventos. Del guion al set, del escenario al stream.",
-  image: "sobre-mi",                            // un retrato de ELLA (pedido de Braian, 2026-10-14: «en el hero una foto como la de sobre mí»)
+  image: "sobre-mi",                            // un retrato de ella
   video: null,                                  // video de fondo encima de la foto: con su retrato no va (lo taparía). El del rodaje
                                                 // pasó a la galería de Brujas y a la portada de trabajos.
   focus: { m: "34% 30%", d: "40% 45%" },        // encuadre por ancho: ella queda a la vista y el texto no le tapa la cara
   caption: "Retrato · 808 Trap Party, 2024",
   image2: "sol-claqueta",                      // segunda foto del héroe (la claqueta con su nombre de directora)
   strip: ["Producción", "Realización", "Fotografía", "Streaming", "Eventos", "Contenido"],   // franja bajo el héroe: sus pilares y áreas
-  // watch: { label: "Ver reel", href: "https://…" },   // botón al reel: sacado a pedido de Braian (2026-10-14); volver a ponerlo cuando haya link
+  // watch: { label: "Ver reel", href: "https://…" },   // botón al reel: va cuando haya link
 };
 
 /* Categorías del filtro de Trabajo. Una categoría sin proyectos NO se muestra (y «Todo» solo aparece
@@ -220,7 +217,7 @@ const PROJECTS = [
     where: "Facultad de Artes · UNLP",           // así figura en los créditos de «Testigo» (Departamento de Artes Audiovisuales, Facultad de Artes, UNLP); su carpeta dice «Facultad Nacional de La Plata»
     roles: ["Guion", "Dirección", "Coordinación de casting"],
     text: "Una cocina de brujas armada en estudio: caldero, hierbas colgadas y mucho verde. Imágenes del rodaje.",
-    // watch: { label: "Ver cortometraje", href: "https://…" },   // sacado a pedido de Braian (2026-10-14): no hay link al corto todavía
+    // watch: { label: "Ver cortometraje", href: "https://…" },   // botón al corto: va cuando haya link
     frames: ["hero-rodaje", "brujas-caldero", "brujas-mesa", "brujas-camara", "brujas-cocina", "brujas-tablet", "brujas-monitor", "brujas-perfil"],
   },
   {
@@ -338,7 +335,7 @@ const PROJECTS = [
 
 /* Lo mejor: la selección que muestra la página principal (la lista entera está en trabajos.html).
    slug = el proyecto · cover = una foto o un video de ese proyecto · pos = encuadre de la tapa (object-position).
-   De preferencia, proyectos con video subido (pedido de Braian, 2026-10-14): los videos de tapa se reproducen solos, mudos, cuando
+   De preferencia, proyectos con video subido: los videos de tapa se reproducen solos, mudos, cuando
    la tarjeta se ve (la grande en escritorio; la que está a la vista en el celular) y al pasar el mouse; hay un botón para pausarlos. */
 const FEATURED = [
   // la primera es la grande (en escritorio ocupa dos columnas y dos filas); las dos que siguen van arriba a la derecha
@@ -443,10 +440,10 @@ const SERVICES = {
 };
 
 /* confirmed:true = lo dijo ella o el material lo prueba. Si no, se muestra «cambiar después».
-   Lista que pasó ella (WhatsApp, 2026-10-13) bajo "EDICIÓN": Lightroom, Premiere, Photoshop, CapCut, Pro Tools, DaVinci Resolve
+   Lista que pasó ella bajo "EDICIÓN": Lightroom, Premiere, Photoshop, CapCut, Pro Tools, DaVinci Resolve
    y "paquete de Office: sí". OBS Studio y Twitch salen de su trabajo en Arena Gamer.
-   Programa de guion (ej. Final Draft) y de diseño (ej. Canva): NO se listan hasta que ella diga cuáles usa
-   (Braian: «si no usás, no pasa nada»). La captura se cortaba en la línea de Office: confirmar si seguía con DISEÑO y GUION.
+   Programa de guion (ej. Final Draft) y de diseño (ej. Canva): NO se listan hasta que ella diga cuáles usa.
+   La captura se cortaba en la línea de Office: confirmar si seguía con DISEÑO y GUION.
    icon = el dibujo que va al lado (lo que se HACE con la herramienta, no su logo): timeline (montaje) · color (corrección de
    color) · phone (edición en el celular) · sliders (revelado de foto) · layers (retoque por capas) · wave (audio) ·
    monitor (escenas de transmisión) · live (en vivo) · sheet (planillas y documentos). Sin icon, o con uno que no existe,

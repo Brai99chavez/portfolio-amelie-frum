@@ -124,18 +124,18 @@ Revisado pantalla por pantalla en 375×812, 320×568 y acostado (844×390); prob
 
 ## Dos páginas (v1.5)
 
-Braian: *«hay mucho contenido en la landing, hacé un html aparte para los trabajos y en la principal una preview de lo mejorcito»*.
+La principal tenía demasiado contenido: los trabajos pasaron a su propia página y la principal quedó con una selección de lo mejor.
 
 | Página | Qué tiene | Alto (escritorio / celular) |
 |---|---|---|
 | `index.html` | Portada (retrato de ella) → **«Lo mejor»** (6 tarjetas: Brujas, Eventos sociales, 808, Cuando el sol, Prohibido, Baby Amatista; cada una lleva a su proyecto) → «Ver todos los trabajos» → Sobre mí → Qué hago → Herramientas → Contacto | 6.136 / 7.465 px (antes ~15.000 / ~21.000) |
 | `trabajos.html` | «Lo que hice.» → filtro → 11 proyectos agrupados (Ficción → Videoclips → Eventos y streaming → Fotografía → Actuación y modelaje) → 20 créditos → Contacto | 12.008 / 15.940 px |
 
-- **«Lo mejor» (v1.6):** Braian pidió *«estilizalo más, que arriba esté eventos sociales, y que estén los que tienen video»*. En escritorio es un mosaico: Brujas grande a la izquierda y Eventos sociales y 808 a su lado; abajo, Cuando el sol, Prohibido y Baby Amatista. 5 de las 6 tienen tapa en video (solo hay 5 proyectos con video; Baby Amatista va con foto hasta que llegue otro). Cada tarjeta: «Esc. 01», marca «Video», tipo y año, título, rol y una franja de claqueta abajo.
+- **«Lo mejor» (v1.6):** Más estilizado, con Eventos sociales arriba y priorizando los proyectos que tienen video. En escritorio es un mosaico: Brujas grande a la izquierda y Eventos sociales y 808 a su lado; abajo, Cuando el sol, Prohibido y Baby Amatista. 5 de las 6 tienen tapa en video (solo hay 5 proyectos con video; Baby Amatista va con foto hasta que llegue otro). Cada tarjeta: «Esc. 01», marca «Video», tipo y año, título, rol y una franja de claqueta abajo.
 - **Cuándo se mueven las tapas:** en escritorio arranca sola la grande cuando se ve y las demás al pasar el mouse (o con el foco del teclado); en el celular las tarjetas se deslizan de costado y se reproduce la que está a la vista. Fuera de pantalla se pausan. El botón **«Pausar videos»** frena todo (y «Reproducir videos» lo retoma). Con movimiento reducido o ahorro de datos no arranca ninguna sola y no se baja ningún video. Cada video se baja recién cuando se va a ver.
 - **«Ver todos los trabajos»**: un botón ancho con la franja de claqueta, «11 proyectos · 20 créditos» y una flecha (en 320 px la flecha no se muestra para que entre el texto).
 - La barra marca «Trabajos» cuando estás en esa página; desde trabajos, «Sobre mí», «Qué hago» y «Herramientas» vuelven a la principal.
-- **Nunca flyers** (pedido de Braian): 808 y Arena muestran fotos y videos de la noche y del set. El build no lo controla solo: lo controla `verify_paginas.js` (por nombre de archivo y por el `alt`).
+- **Nunca flyers**: 808 y Arena muestran fotos y videos de la noche y del set. El build no lo controla solo: lo controla `verify_paginas.js` (por nombre de archivo y por el `alt`).
 
 ## Videos (v1.4)
 
