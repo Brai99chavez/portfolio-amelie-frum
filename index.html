@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="{{SITE_LANG}}">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>document.documentElement.classList.add("js");setTimeout(function(){if(!window.__app)document.documentElement.classList.add("no-app");},4000);</script><!-- sin JS, o si app.js no carga, todo el contenido igual se ve -->
+  <title>{{SITE_NAME}} — {{SITE_ROLE}}</title>
+  <meta name="description" content="{{SITE_DESC}}" />
+  <meta name="theme-color" content="#0A0A10" />
+  <meta name="color-scheme" content="dark" />
+  <!--BUILD:seo-->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A0A10'/%3E%3Cpath d='M6 13h20v13H6z' fill='none' stroke='%23B084FF' stroke-width='2'/%3E%3Cpath d='M5 6.5l22-2.2 .7 5L6 11.5z' fill='%23B084FF'/%3E%3C/svg%3E" />
+  <!--BUILD:preload-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400&family=Instrument+Serif:ital@0;1&display=swap" />
+  <link rel="stylesheet" href="assets/css/site.css?v={{V_CSS}}" />
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <!--BUILD:nav-->
+
+  <!-- página principal: portada, una muestra del trabajo (lo mejor) y la persona. Todos los trabajos están en trabajos.html -->
+  <main id="contenido">
+    <!--BUILD:hero-->
+    <!--BUILD:featured-->
+    <!--BUILD:about-->
+    <!--BUILD:services-->
+    <!--BUILD:tools-->
+    <!--BUILD:contact-->
+  </main>
+
+  <!--BUILD:footer-->
+
+  <!--BUILD:menu-->
+
+  <script src="assets/js/app.js?v={{V_JS}}" defer></script>
+</body>
+</html>

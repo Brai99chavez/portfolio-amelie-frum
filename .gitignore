@@ -1,0 +1,23 @@
+# dependencias (solo desarrollo: sharp para optimizar imágenes)
+node_modules/
+
+# salida del build (se regenera con: npm run build)
+dist/
+
+# material de la clienta: pesado, sin autorizar y NO va al sitio
+contenido/
+_originales/
+
+# análisis interno: tiene datos de contacto, supuestos y notas
+_analisis/
+
+# varios
+.DS_Store
+Thumbs.db
+*.log
+
+# copias del diseño para ir y volver entre rediseños (npm run diseno)
+_versiones/
+
+# paquete para arrastrar a Netlify (npm run zip)
+*.zip

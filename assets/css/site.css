@@ -1,0 +1,748 @@
+/* =============================================================
+   AMELIE FRUM — "Modo noche"
+   Un sitio que se enciende como un set: negro de sala, luz de gel
+   violeta como único acento, y la CLAQUETA (escena / plano / toma)
+   como sistema para anunciar cada sección y cada proyecto.
+   v1.2 «isla de edición»: el movimiento cita el oficio — la portada
+   se abre como un plano (franjas de cine + visor con REC y código de
+   tiempo), la claqueta se cierra al entrar cada proyecto, la barra
+   de cada galería es una línea de tiempo con clips y cabezal, los
+   títulos entran con un barrido, el retrato «se revela» y los
+   íconos de herramientas se dibujan y hacen lo que hace cada una.
+   Mobile primero. Todo el movimiento se apaga con prefers-reduced-motion,
+   y nada queda oculto si el JS no carga (.no-app).
+   ============================================================= */
+
+:root {
+  --bg:      #0A0A10;
+  --bg-2:    #0F0F17;
+  --panel:   #14141D;
+  --fg:      #EEEAF4;
+  --dim:     #A29DB0;            /* texto atenuado: ≥ 4,5:1 sobre --bg */
+  --line:    rgba(238,234,244,.14);
+  --line-2:  rgba(238,234,244,.26);
+  --ui-border: rgba(238,234,244,.46);   /* borde de controles: ≥ 3:1 sobre --bg (WCAG 1.4.11) */
+  --accent:  #B084FF;            /* violeta de gel — cambialo acá y se propaga */
+  --accent-ink: #0A0A10;         /* texto sobre el acento */
+  --tile:    #1E1A2C;            /* fondo de los íconos de herramientas (sólido: las perillas lo usan para tapar la línea) */
+
+  --display: "Instrument Serif", "Times New Roman", serif;   /* solo existe en 400 y cursiva: nunca pedir otro peso (el navegador inventaría una negrita falsa) */
+  --sans:    "DM Sans", system-ui, sans-serif;
+  --mono:    "IBM Plex Mono", ui-monospace, monospace;
+
+  --ease:    cubic-bezier(.2,.8,.2,1);
+  --gutter:  clamp(1.1rem, 4.5vw, 3.5rem);
+  --maxw:    1360px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 4.5rem; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--sans); font-size: 1rem; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.skip { position: absolute; left: 1rem; top: -4rem; z-index: 100; background: var(--accent); color: var(--accent-ink);
+        padding: .7rem 1rem; border-radius: 8px; font-weight: 700; transition: top .2s; }
+.skip:focus { top: 1rem; }
+
+.wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: clamp(3.8rem, 8.2vw, 6.4rem); }   /* ritmo: entre una sección y la siguiente se suman dos paddings; antes llegaba a 256px */
+.mono { font-family: var(--mono); }
+.accent { color: var(--accent); }
+
+.scene { font: 400 .74rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+.label { font: 400 .7rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.h2 { font-family: var(--display); font-weight: 400; font-size: clamp(2.7rem, 9vw, 5rem); line-height: .96; letter-spacing: -.02em; margin-top: .8rem; }
+
+/* «cambiar después»: dato que falta (ver _analisis/pendientes.md) */
+.pend { display: inline-block; font: 400 .66rem/1 var(--mono); letter-spacing: .06em; text-transform: uppercase;
+        color: var(--accent); border: 1px solid rgba(176,132,255,.45); padding: .38em .6em; border-radius: 4px; white-space: nowrap; }
+
+/* ---------- botones ---------- */
+.ico { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55em;
+  min-height: 44px; padding: .85em 1.5em; border-radius: 999px;
+  font: 500 .95rem/1 var(--sans); color: var(--fg);
+  border: 1px solid var(--ui-border); background: transparent; cursor: pointer;
+  transition: background .3s, color .3s, border-color .3s, transform .3s var(--ease);
+}
+/* los efectos de «pasar el mouse» solo donde hay mouse: en pantallas táctiles quedaban pegados después de tocar
+   (foto agrandada con esquinas al cerrar el visor, flecha de la galería pintada como si estuviera apretada) */
+@media (hover: hover) { .btn:hover { border-color: var(--accent); color: var(--accent); } }
+.btn--accent { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+@media (hover: hover) { .btn--accent:hover { background: var(--fg); border-color: var(--fg); color: var(--accent-ink); } }
+.btn--lg { padding: 1.05em 1.8em; font-size: 1rem; }
+@media (max-width: 380px) { .btn--lg { padding-inline: 1.2em; } }   /* en 320 px la flecha de «Email frumamelie@gmail.com ↗» quedaba sola en otro renglón */
+.btn--sm { padding: .6em 1.15em; font-size: .85rem; }
+.btn { max-width: 100%; flex-wrap: wrap; text-align: center; }
+.btn__detail { font: 400 .78rem/1.2 var(--mono); letter-spacing: .02em; color: var(--dim); overflow-wrap: anywhere; transition: color .3s; }   /* el dato (número, mail, usuario) junto al botón, para poder copiarlo */
+@media (hover: hover) { .btn:hover .btn__detail { color: inherit; } }
+.btn--pending { border-style: dashed; color: var(--dim); cursor: default; }
+@media (hover: hover) { .btn--pending:hover { border-color: var(--ui-border); color: var(--dim); } }
+
+/* el botón principal «da claqueta» al hover */
+.btn--clap { position: relative; margin-top: 10px; }
+.btn--clap::before {
+  content: ""; position: absolute; left: 14%; right: 14%; top: -10px; height: 8px; border-radius: 3px 3px 0 0;
+  background: repeating-linear-gradient(-45deg, var(--accent) 0 8px, var(--bg) 8px 16px);
+  transform-origin: left bottom; transition: transform .22s var(--ease);
+}
+.btn--clap:hover::before { transform: rotate(-9deg); }
+
+/* ---------- nav ---------- */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .8rem var(--gutter); border-bottom: 1px solid transparent;
+  transition: background .4s, border-color .4s, backdrop-filter .4s;
+}
+.nav.is-scrolled { background: rgba(10,10,16,.8); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom-color: var(--line); }
+.nav__brand { display: flex; align-items: center; gap: .55em; font: 400 1.5rem/1 var(--display); letter-spacing: -.005em; white-space: nowrap; }   /* nowrap: con el botón del menú, en 320 px el nombre se partía en dos renglones */
+@media (max-width: 719px) { .nav { gap: .5rem; } }
+@media (max-width: 340px) { .nav__brand { font-size: 1.38rem; } }
+.nav__brand i { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 14px var(--accent); }
+.nav__links { display: flex; align-items: center; gap: clamp(1rem, 2.6vw, 2rem); }
+.nav__links a:not(.btn) { font-size: .9rem; color: var(--dim); transition: color .25s; padding-block: .5rem; }
+.nav__links a:not(.btn):hover { color: var(--fg); }
+.nav__links a:not(.btn)[aria-current] { color: var(--fg); background: linear-gradient(var(--accent), var(--accent)) left bottom / 100% 2px no-repeat; }   /* sección activa: la marca app.js según dónde estás */
+@media (max-width: 719px) { .nav__links a:not(.btn) { display: none; } .nav__links { gap: .5rem; } }
+/* botón del menú del celular (abre el índice de escenas). En 320 px quedan 63 px libres entre la marca y «Escribime»: entra uno de 44. */
+.nav__menu { display: none; }
+@media (max-width: 719px) {
+  .nav__menu:not([hidden]) { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border-radius: 50%; border: 1px solid var(--ui-border);
+    background: transparent; color: var(--fg); cursor: pointer; transition: border-color .25s, color .25s; }
+}
+.nav__menu-ico { position: relative; width: 16px; height: 9px; }
+.nav__menu-ico i { position: absolute; left: 0; right: 0; height: 1.5px; border-radius: 1px; background: currentColor; }
+.nav__menu-ico i:first-child { top: 0; } .nav__menu-ico i:last-child { bottom: 0; left: 5px; }   /* dos líneas desparejas, como los palos de la claqueta */
+
+/* ---------- hero ---------- */
+.hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; isolation: isolate; overflow: hidden; }
+/* celular: la foto ocupa la parte de arriba y el texto va debajo, sin tapar la cara */
+.hero__media { position: absolute; inset: 0 0 auto 0; height: 68vh; height: 68svh; z-index: -2; overflow: hidden; }   /* overflow: la foto entra un poco más grande y se asienta (settle) */
+.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: var(--focus-m, 50% 46%); }   /* encuadre por foto: HERO.focus en content.js */
+.hero__scrim { position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(to bottom, rgba(10,10,16,.45) 0, rgba(10,10,16,0) 16vh, rgba(10,10,16,.5) 34vh, rgba(10,10,16,.9) 50vh, var(--bg) 64vh);
+  background: linear-gradient(to bottom, rgba(10,10,16,.45) 0, rgba(10,10,16,0) 16svh, rgba(10,10,16,.5) 34svh, rgba(10,10,16,.9) 50svh, var(--bg) 64svh); }
+.hero__inner { width: 100%; padding-block: 8rem 2.4rem; }
+.eyebrow { display: inline-flex; align-items: center; gap: .8em; font: 400 .74rem/1 var(--mono); letter-spacing: .15em; text-transform: uppercase; color: var(--accent); }
+.eyebrow::before { content: ""; width: 26px; height: 2px; background: var(--accent); }
+/* en el celular el rótulo de la portada va encima de la foto. Se MIDIÓ el violeta contra lo que tiene atrás: 3,2:1 (mediana),
+   y un halo solo lo subía a 3,8:1. Va sobre una etiqueta oscura (como el rótulo de una claqueta); en los teléfonos angostos
+   se compacta para que entre en un renglón (en 320 y 360 px se partía en dos) */
+@media (max-width: 899px) { .hero .eyebrow { padding: .5em .7em; margin-left: -.7em; border-radius: 4px; background: rgba(10,10,16,.78);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); } }
+@media (max-width: 400px) { .hero .eyebrow { font-size: .66rem; letter-spacing: .09em; gap: .55em; } .hero .eyebrow::before { width: 16px; } }
+/* Instrument Serif es estrecha: "produzco" mide ~3,4 × el tamaño de fuente (se midió en el navegador). A 375 px, 19vw ≈ 71px entra con holgura. */
+.hero__title { font: 400 clamp(3.4rem, 19vw, 8rem)/.9 var(--display); letter-spacing: -.02em; margin: .9rem 0 1.9rem; }   /* margen inferior: los descendentes de la cursiva (y, j) llegan lejos */
+.hero__title .accent, .contact__title .accent { font-style: italic; }
+.hero__line { display: block; }
+/* entrada de la portada: cada línea sube y aparece, una tras otra. Con prefers-reduced-motion la regla global las deja quietas. */
+@keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+.hero__inner > * { animation: rise .9s var(--ease) both; }
+.hero__inner > .eyebrow { animation-delay: .05s; }
+.hero__inner > .hero__title { animation: none; }   /* el título anima por líneas, no entero */
+.hero__line:nth-child(1) { animation: rise .9s var(--ease) .12s both; }
+.hero__line:nth-child(2) { animation: rise .9s var(--ease) .22s both; }
+.hero__line:nth-child(3) { animation: rise .9s var(--ease) .32s both; }
+.hero__inner > .hero__lead { animation-delay: .46s; }
+.hero__inner > .hero__cta { animation-delay: .56s; }
+.hero__inner > .hero__cap { animation-delay: .66s; }
+/* apertura de plano: dos franjas negras (formato de cine) se abren sobre la foto, que se asienta con un leve alejamiento.
+   El estado final es el de reposo (franjas en 0, foto a escala 1): con movimiento reducido no hay nada que esperar. */
+.hero__media::before, .hero__media::after { content: ""; position: absolute; left: 0; right: 0; z-index: 1; height: 15%; background: var(--bg);
+  transform: scaleY(0); animation: letterbox 1.5s var(--ease) .1s both; pointer-events: none; }
+.hero__media::before { top: 0; transform-origin: top; }
+.hero__media::after { bottom: 0; transform-origin: bottom; }
+@keyframes letterbox { from { transform: scaleY(1); } to { transform: scaleY(0); } }
+.hero__media img { animation: settle 2.6s var(--ease) both; }
+@keyframes settle { from { transform: scale(1.06); } }
+
+/* visor de cámara: esquinas de encuadre, REC titilando y código de tiempo (app.js lo hace correr a 24 cuadros por segundo) */
+/* En el celular el lugar libre entre el menú y el rótulo va de 55 a 470 px según el teléfono (medido): de base se ve solo la
+   fila de arriba (REC y TC) y app.js le da el cuadro completo (.is-framed + alto) cuando entra sin tocar el texto. */
+.hero__vf { position: absolute; z-index: 0; top: 4.9rem; left: var(--gutter); right: var(--gutter); height: 36px; pointer-events: none;
+  font: 400 .66rem/1 var(--mono); letter-spacing: .14em; color: var(--fg); text-shadow: 0 1px 6px rgba(0,0,0,.65);
+  animation: vfIn .9s ease 1.1s both; }
+.hero__vf::before { content: ""; position: absolute; inset: 0; opacity: .85; background-repeat: no-repeat;
+  background-image: linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)),
+                    linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg));
+  background-position: top left, top left, top right, top right, bottom left, bottom left, bottom right, bottom right;
+  background-size: 22px 1.5px, 1.5px 22px, 22px 1.5px, 1.5px 22px, 22px 1.5px, 1.5px 22px, 22px 1.5px, 1.5px 22px; }
+.vf__rec, .vf__tc { position: absolute; top: 13px; display: inline-flex; align-items: center; gap: .55em; }
+.vf__rec { left: 14px; }
+.vf__tc { right: 14px; font-variant-numeric: tabular-nums; }
+.vf__tc b { font-weight: 400; color: var(--accent); }
+.vf__rec i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: rec 1.3s steps(1) infinite; }
+@keyframes rec { 50% { opacity: .15; } }
+/* video de portada: encima de la foto; aparece con un fundido cuando ya está reproduciendo (sin JS queda la foto) */
+.hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; opacity: 0; transition: opacity .9s ease; }
+.hero__video.is-playing { opacity: 1; }
+/* con video, el «● REC» del visor es el botón de pausa: una pastilla que se puede tocar (≥ 44 px) */
+.vf__rec.vf__btn { top: 6px; left: 8px; min-height: 44px; padding: 0 12px; border: 1px solid rgba(238,234,244,.4); border-radius: 999px;
+  background: rgba(10,10,16,.45); color: var(--fg); font: inherit; letter-spacing: inherit; text-shadow: inherit; cursor: pointer; pointer-events: auto;
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: border-color .25s; }
+.vf__rec[hidden] { display: none; }   /* .vf__rec declara display: el atributo hidden solo no alcanza */
+.vf__btn::after { content: ""; width: 7px; height: 9px; margin-left: .15em; border-left: 2px solid currentColor; border-right: 2px solid currentColor; opacity: .8; }   /* ❚❚ = se puede pausar */
+.vf__btn.is-paused i { animation: none; width: 0; height: 0; border-radius: 0; background: none; box-shadow: none;
+  border-left: 8px solid var(--fg); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }                   /* ▶ = reproducir */
+.vf__btn.is-paused::after { display: none; }
+@media (hover: hover) { .vf__btn:hover { border-color: var(--accent); } }
+@keyframes vfIn { from { opacity: 0; } }
+@media (max-width: 899px) {
+  .hero__vf:not(.is-framed)::before { background-size: 22px 1.5px, 1.5px 22px, 22px 1.5px, 1.5px 22px, 0 0, 0 0, 0 0, 0 0; }   /* sin las esquinas de abajo */
+}
+/* «pantalla ancha» = escritorio O celular acostado (bajo y apaisado): la foto va al costado, como en escritorio */
+@media (min-width: 900px), (orientation: landscape) and (max-height: 500px) {
+  .hero__vf { top: 6.6rem; bottom: 3.4rem; height: auto; left: auto; width: calc(36vw - var(--gutter)); }   /* sobre la parte visible de la foto (la máscara la funde a la izquierda) */
+  .vf__tc { top: auto; bottom: 13px; }
+}
+
+.hero__lead { max-width: 32ch; font-size: clamp(1.05rem, 3.8vw, 1.25rem); opacity: .94; }
+.hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.5rem; }
+.hero__cap { margin-top: 2rem; color: var(--dim); font-size: .72rem; letter-spacing: .04em; }
+
+@media (min-width: 900px), (orientation: landscape) and (max-height: 500px) {
+  .hero { align-items: center; }
+  .hero__media { inset: 0 0 0 auto; width: 52%; height: auto;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 38%); mask-image: linear-gradient(to right, transparent, #000 38%); }
+  .hero__media img { object-position: var(--focus-d, 50% 52%); }
+  .hero__scrim { background: linear-gradient(to top, var(--bg) 0%, transparent 26%), linear-gradient(to bottom, rgba(10,10,16,.62), transparent 18%); }   /* arriba: que el menú se lea sobre cualquier foto */
+  .hero__title { font-size: clamp(5.5rem, 11vw, 10.5rem); }
+  .hero__inner { padding-block: 7rem 4rem; }
+  .hero__lead { max-width: 36ch; }
+}
+/* celular acostado (≈ 844×390): con el diseño de celular la foto quedaba recortada al piso y el título ocupaba dos pantallas.
+   Foto al costado (arriba) y tamaños según el ALTO de la pantalla, para que la portada entre en una sola. */
+@media (orientation: landscape) and (max-height: 500px) {
+  /* medido de 640×360 a 932×430: con el epígrafe y el título a 12,5 % del alto sobraban 2–48 px */
+  .hero__title { font-size: clamp(2.2rem, 11svh, 4.4rem); margin: .4rem 0 .6rem; }
+  .hero__inner { padding-block: 4.5rem 1rem; }   /* 4,5rem: el menú mide ~70 px de alto */
+  .hero__lead { font-size: .95rem; max-width: 34ch; line-height: 1.5; }   /* 34ch: que no se meta en la foto */
+  .hero__cta { margin-top: .7rem; }
+  .hero__cap { display: none; }   /* el epígrafe de la foto es lo prescindible acá (la foto conserva su texto alternativo) */
+  .hero__vf { top: 4.6rem; bottom: 1rem; }
+}
+
+/* ---------- cinta de pilares ---------- */
+.strip { position: relative; overflow: hidden; border-block: 1px solid var(--line-2); background: var(--bg-2); padding-block: .95rem; }
+.strip::before, .strip::after { content: ""; position: absolute; left: 0; right: 0; height: 5px; z-index: 1;   /* perforaciones de película */
+  background: repeating-linear-gradient(90deg, var(--line-2) 0 10px, transparent 10px 24px); opacity: .55; }
+.strip::before { top: 3px; } .strip::after { bottom: 3px; }
+.strip__track { display: flex; width: max-content; animation: strip 46s linear infinite; }
+.strip__set { display: flex; align-items: center; flex: none; }
+.strip__set span { display: inline-flex; align-items: center; font: 400 clamp(1.5rem, 3vw, 2.2rem)/1 var(--display); letter-spacing: -.01em; color: var(--fg); white-space: nowrap; padding-inline: 1.4rem; }
+.strip__set span::after { content: "✦"; margin-left: 2.8rem; font: 400 .9rem/1 var(--sans); color: var(--accent); }
+@keyframes strip { to { transform: translateX(-33.3333%); } }
+@media (prefers-reduced-motion: reduce) {   /* quieta, una sola tanda y centrada */
+  .strip__track { animation: none; width: auto; justify-content: center; flex-wrap: wrap; }
+  .strip__set:not(:first-child) { display: none; }
+  .strip__set { flex-wrap: wrap; justify-content: center; }
+}
+
+/* ---------- claqueta (slate) ---------- */
+/* sin overflow:hidden: el brazo de la claqueta se abre hacia afuera de la tarjeta */
+.slate { border: 1px solid var(--line-2); border-radius: 10px; background: var(--panel); }
+.slate__bar { position: relative; height: 11px; margin-top: 15px; background: repeating-linear-gradient(-45deg, var(--accent) 0 14px, var(--bg) 14px 28px); }
+/* el brazo: rayas al revés (como una claqueta real), bisagra a la izquierda. Al entrar el proyecto en pantalla (.is-in)
+   está abierto y se cierra de golpe, con un rebote chico. --open lo pone app.js: ~64px de apertura en la punta, sea cual sea el ancho. */
+.slate__arm { position: absolute; left: 0; right: 0; bottom: calc(100% + 3px); height: 11px; border-radius: 9px 9px 0 0;
+  background: repeating-linear-gradient(45deg, var(--accent) 0 14px, var(--bg) 14px 28px); transform-origin: 0 100%; }
+@keyframes clap {
+  0%, 40% { transform: rotate(var(--open, -8deg)); animation-timing-function: cubic-bezier(.6, 0, .9, .45); }
+  54%     { transform: rotate(0deg); animation-timing-function: ease-out; }
+  62%     { transform: rotate(calc(var(--open, -8deg) * .12)); animation-timing-function: ease-in; }
+  70%, 100% { transform: rotate(0deg); }
+}
+@keyframes clapHit { 0%, 53% { filter: none; } 56% { filter: brightness(1.7); } 75%, 100% { filter: none; } }
+.js:not(.no-app) .project.is-in .slate__arm { animation: clap 1.15s linear .3s both; }
+.js:not(.no-app) .project.is-in .slate__bar { animation: clapHit 1.15s linear .3s both; }
+.slate__grid { display: flex; flex-wrap: wrap; margin: 0; }
+.slate__cell { flex: 1 1 auto; padding: .7rem 1rem .8rem; border-left: 1px solid var(--line); border-top: 1px solid var(--line); }
+.slate__cell--title { flex: 1 1 100%; border: 0; }
+.slate__cell:nth-child(2) { border-left: 0; }
+.slate dt { font: 400 .64rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--dim); margin-bottom: .45rem; }
+.slate dd { margin: 0; font: 500 .95rem/1.3 var(--sans); }
+.project__title { font: 400 clamp(2.3rem, 8.5vw, 3.9rem)/.98 var(--display); letter-spacing: -.015em; }
+
+/* ---------- trabajo ---------- */
+.work__lead { color: var(--dim); max-width: 46ch; margin-top: 1rem; }
+.project { margin-top: clamp(3.5rem, 8vw, 6rem); }
+.project:first-of-type { margin-top: clamp(2.5rem, 6vw, 4rem); }
+.project__body { display: grid; gap: 1.6rem; margin-top: 1.4rem; min-width: 0; }
+.gallery { min-width: 0; }
+.project__info { display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+.project__where { font-size: .78rem; color: var(--dim); letter-spacing: .03em; }
+.project__text { max-width: 46ch; opacity: .93; }
+.roles { display: flex; flex-direction: column; gap: .4rem; }
+.roles li { position: relative; padding-left: 1.1em; font-size: .95rem; }
+.roles li::before { content: ""; position: absolute; left: 0; top: .78em; width: .5em; height: 1px; background: var(--accent); }
+.project__credit { font-size: .78rem; color: var(--dim); }
+.project__watch { margin-top: .4rem; }
+
+@media (min-width: 900px) {
+  .project__body { grid-template-columns: minmax(240px, 330px) minmax(0, 1fr); gap: 2.6rem; align-items: start; }
+  .slate__cell--title { flex: 1 1 55%; }
+}
+
+/* ---------- filtros ---------- */
+/* La barra se pega debajo del menú mientras se recorre Trabajo. Nace oculta (atributo hidden) y app.js la activa:
+   sin JavaScript no hay botones que no hagan nada, y todos los proyectos están a la vista. */
+.filterbar { position: sticky; top: 4.4rem; z-index: 20; isolation: isolate; margin-top: 2rem; padding-block: .75rem; }
+.filterbar[hidden] { display: none; }
+@media (orientation: landscape) and (max-height: 500px) { .filterbar { position: relative; top: auto; } }   /* celular acostado: pegada, la barra + el menú se comían un cuarto de la pantalla */
+.filterbar::before { content: ""; position: absolute; z-index: -1; inset: 0 calc(50% - 50vw);   /* fondo a todo el ancho de la ventana */
+  background: rgba(10,10,16,.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-block: 1px solid var(--line); }
+.filters { display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none;
+  margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }   /* en celular los chips se deslizan hasta el borde */
+.filters::-webkit-scrollbar { display: none; }
+.chip { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .6em; min-height: 44px; padding: .55em 1.1em;
+  border: 1px solid var(--ui-border); border-radius: 999px; background: transparent; color: var(--fg); cursor: pointer;
+  font: 500 .92rem/1 var(--sans); transition: background .25s, color .25s, border-color .25s; }
+@media (hover: hover) { .chip:hover { border-color: var(--accent); color: var(--accent); } }
+.chip__n { font: 400 .7rem/1 var(--mono); color: var(--dim); padding: .3em .5em; border-radius: 999px; background: rgba(238,234,244,.08); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.chip[aria-pressed="true"] .chip__n { background: rgba(10,10,16,.14); color: var(--accent-ink); }
+@media (min-width: 900px) { .filters { margin-inline: 0; padding-inline: 0; } }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.project[hidden] { display: none; }
+.project { scroll-margin-top: 9.5rem; }   /* al saltar a un proyecto, que no lo tape el menú + la barra de filtros */
+
+/* controles de la tira: flechas, «01 / 06» y una barra de avance. Nacen ocultos (hidden) y app.js los activa solo si la tira desborda. */
+.rail__bar { display: flex; align-items: center; gap: .5rem; margin-top: .9rem; padding-right: var(--gutter); }
+.rail__bar[hidden] { display: none; }
+.rail__btn { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--ui-border);
+  background: transparent; color: var(--fg); cursor: pointer; font-size: 1.05rem; transition: background .25s, color .25s, border-color .25s, opacity .25s; }
+@media (hover: hover) { .rail__btn:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); } }
+.rail__btn:disabled { opacity: .35; cursor: default; }
+.rail__count { margin-inline: .5rem .3rem; font-size: .76rem; letter-spacing: .08em; color: var(--dim); white-space: nowrap; }
+/* línea de tiempo de edición: un clip por foto (se encienden los que están a la vista) y el cabezal de reproducción (--w) */
+.rail__track { position: relative; flex: 1; height: 22px; display: flex; align-items: center; min-width: 0; }
+.rail__clips { display: flex; gap: 2px; width: 100%; height: 10px; }
+.rail__clips b { flex: 1 1 0; min-width: 2px; border-radius: 2px; background: rgba(238,234,244,.15); transition: background .3s; }
+.rail__clips b.is-on { background: rgba(176,132,255,.5); }
+.rail__clips b.is-video { background-image: repeating-linear-gradient(90deg, rgba(10,10,16,.6) 0 2px, transparent 2px 5px); }   /* los clips de video, con «perforaciones» */
+.rail__track i { position: absolute; top: 1px; bottom: 0; left: var(--w, 0%); width: 2px; margin-left: -1px; background: var(--accent); border-radius: 1px; transition: left .2s linear; }
+.rail__track i::before { content: ""; position: absolute; top: -1px; left: 50%; width: 10px; height: 7px; transform: translateX(-50%);
+  background: var(--accent); clip-path: polygon(0 0, 100% 0, 100% 45%, 50% 100%, 0 45%); }
+@media (min-width: 900px) { .rail__bar { padding-right: 0; max-width: 560px; } }
+
+/* galería: tira de fotogramas que se desliza */
+.rail {
+  --h: clamp(330px, 62vh, 560px);
+  display: flex; gap: .8rem; min-width: 0;
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity;
+  padding-bottom: .9rem;
+  margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+  scrollbar-width: thin; scrollbar-color: var(--line-2) transparent;
+}
+/* en escritorio la tira sangra hasta el borde derecho de la ventana (no queda cortada a media pantalla) */
+@media (min-width: 900px) {
+  .rail { --bleed: max(var(--gutter), calc((100vw - var(--maxw)) / 2 + var(--gutter)));
+          margin-inline: 0 calc(var(--bleed) * -1); padding-inline: 0 var(--bleed); scroll-padding-inline: 0; }
+}
+main { overflow-x: clip; }   /* el sangrado usa 100vw (incluye la barra de scroll): se recorta, no genera scroll horizontal */
+.project--low .rail { --h: clamp(300px, 46vh, 420px); }   /* fotos de baja resolución: más chicas */
+.frame {
+  position: relative; display: block; flex: 0 0 auto; scroll-snap-align: start;
+  height: min(var(--h), calc(86vw / var(--ar))); aspect-ratio: var(--ar);
+  border-radius: 8px; overflow: hidden; background: var(--panel);
+}
+.frame img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease); }
+.frame::after { content: attr(data-n); position: absolute; left: 8px; bottom: 8px; padding: .32em .5em; border-radius: 4px;
+  font: 400 .64rem/1 var(--mono); letter-spacing: .08em; color: var(--fg); background: rgba(10,10,16,.62); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+@media (hover: hover) { .frame:hover img { transform: scale(1.035); } }
+/* al pasar el mouse (o con el foco), esquinas de encuadre sobre la foto: como mirar por el visor */
+.frame::before { content: ""; position: absolute; inset: 12px; z-index: 1; pointer-events: none; opacity: 0; transform: scale(1.05);
+  transition: opacity .3s, transform .5s var(--ease); background-repeat: no-repeat;
+  background-image: linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)),
+                    linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg));
+  background-position: top left, top left, top right, top right, bottom left, bottom left, bottom right, bottom right;
+  background-size: 16px 1.5px, 1.5px 16px, 16px 1.5px, 1.5px 16px, 16px 1.5px, 1.5px 16px, 16px 1.5px, 1.5px 16px;
+  filter: drop-shadow(0 0 3px rgba(0,0,0,.5)); }
+.frame:focus-visible::before { opacity: 1; transform: none; }
+@media (hover: hover) { .frame:hover::before { opacity: 1; transform: none; } }
+.frame:focus-visible { outline-offset: -3px; }
+/* video dentro de la galería: mismo marco que una foto; botón de pausa/reproducir abajo a la derecha (el número va a la izquierda) */
+.frame--video { margin: 0; }
+.frame--video .frame__poster, .frame--video video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+.frame--video video { background: transparent; }   /* sin src es transparente: se ve el póster de abajo */
+.frame__play { position: absolute; right: 8px; bottom: 8px; z-index: 2; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%;
+  border: 1px solid rgba(238,234,244,.5); background: rgba(10,10,16,.55); color: var(--fg); cursor: pointer;
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: border-color .25s, color .25s; }
+.frame__play[hidden] { display: none; }
+.frame__play i { width: 10px; height: 12px; border-left: 3px solid currentColor; border-right: 3px solid currentColor; }                         /* ❚❚ */
+.frame__play.is-paused i { width: 0; height: 0; border: 0; margin-left: 3px; border-left: 11px solid currentColor; border-top: 6.5px solid transparent; border-bottom: 6.5px solid transparent; }   /* ▶ */
+@media (hover: hover) { .frame__play:hover { border-color: var(--accent); color: var(--accent); } }
+
+/* ---------- página principal: «Lo mejor» ---------- */
+/* Tarjetas de cine: la imagen o el video ocupa toda la tarjeta y el texto va encima, sobre un degradé; arriba el número de
+   escena y, si es video, la etiqueta «Video»; abajo la franja de la claqueta. Escritorio: la primera es grande (2×2) y las
+   otras se acomodan alrededor. Celular: se deslizan de costado. Los videos de tapa se reproducen solos y mudos cuando se ven
+   (en escritorio, la grande; las demás al pasar el mouse) y el botón del encabezado los pausa (app.js). */
+.link { color: var(--fg); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: .2em; }
+.feats__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; }
+.feats__toggle { display: inline-flex; align-items: center; gap: .6em; min-height: 44px; padding: 0 1.1em; border-radius: 999px;
+  border: 1px solid var(--ui-border); background: transparent; color: var(--fg); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  cursor: pointer; transition: border-color .25s, color .25s; }
+.feats__toggle[hidden] { display: none; }
+.feats__toggle i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: rec 1.3s steps(1) infinite; }
+.feats__toggle.is-paused i { animation: none; width: 0; height: 0; border-radius: 0; background: none; box-shadow: none;
+  border-left: 8px solid var(--fg); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+@media (hover: hover) { .feats__toggle:hover { border-color: var(--accent); color: var(--accent); } }
+
+.feats { list-style: none; display: grid; grid-auto-flow: column; grid-auto-columns: min(80%, 340px); gap: 1rem; margin-top: 2rem;
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+  margin-inline: calc(var(--gutter) * -1); padding: 0 var(--gutter) .6rem; scroll-padding-inline: var(--gutter); }
+.feats::-webkit-scrollbar { display: none; }
+.feat { scroll-snap-align: start; min-width: 0; }
+.feat__link { position: relative; display: block; aspect-ratio: 4 / 5; border: 1px solid var(--line-2); border-radius: 12px; overflow: hidden;
+  background: var(--panel); isolation: isolate; transition: border-color .3s, transform .5s var(--ease), box-shadow .5s var(--ease); }
+.feat__media { position: absolute; inset: 0; z-index: -2; display: block; background: var(--bg-2); }
+.feat__img, .feat__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, 50% 45%);
+  transition: transform 1s var(--ease), opacity .5s; }
+.feat__video { opacity: 0; }
+.feat.is-playing .feat__video { opacity: 1; }
+/* degradé: oscuro abajo (para el texto) y un poco arriba (para las etiquetas) */
+.feat__shade { position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(to top, rgba(10,10,16,.95) 0%, rgba(10,10,16,.72) 26%, rgba(10,10,16,.15) 55%, transparent 70%),
+              linear-gradient(to bottom, rgba(10,10,16,.55), transparent 22%); }
+/* esquinas de encuadre al pasar el mouse o con el foco */
+.feat__link::before { content: ""; position: absolute; inset: 14px; z-index: 1; pointer-events: none; opacity: 0; transform: scale(1.04);
+  transition: opacity .3s, transform .5s var(--ease); background-repeat: no-repeat;
+  background-image: linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)),
+                    linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--fg), var(--fg));
+  background-position: top left, top left, top right, top right, bottom left, bottom left, bottom right, bottom right;
+  background-size: 18px 1.5px, 1.5px 18px, 18px 1.5px, 1.5px 18px, 18px 1.5px, 1.5px 18px, 18px 1.5px, 1.5px 18px; }
+.feat__top { position: absolute; top: 14px; left: 14px; right: 14px; display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
+.feat__n, .feat__rec { display: inline-flex; align-items: center; gap: .5em; padding: .45em .7em; border-radius: 4px; font-size: .62rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--fg); background: rgba(10,10,16,.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.feat__rec i { width: 7px; height: 7px; border-radius: 50%; background: var(--dim); transition: background .3s, box-shadow .3s; }
+.feat.is-playing .feat__rec i { background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: rec 1.3s steps(1) infinite; }
+.feat__body { position: absolute; left: 0; right: 0; bottom: 9px; display: flex; flex-direction: column; gap: .45rem; padding: 1rem 1.15rem 1.15rem; }
+.feat__k { font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.feat__t { font: 400 clamp(1.9rem, 7vw, 2.4rem)/.98 var(--display); letter-spacing: -.012em; color: var(--fg); text-shadow: 0 2px 18px rgba(0,0,0,.45); }
+.feat__r { font-size: .86rem; line-height: 1.4; color: var(--fg); opacity: .86; }
+.feat__bar { position: absolute; left: 0; right: 0; bottom: 0; height: 9px; background: repeating-linear-gradient(-45deg, var(--accent) 0 12px, var(--bg) 12px 24px);
+  background-size: 34px 100%; }
+.feat__link:focus-visible { outline-offset: 3px; }
+.feat__link:focus-visible::before { opacity: 1; transform: none; }
+@keyframes feat-run { to { background-position: 34px 0; } }
+@media (hover: hover) {
+  .feat__link:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 18px 50px -20px rgba(176,132,255,.45); }
+  .feat__link:hover::before { opacity: 1; transform: none; }
+  .feat__link:hover .feat__img, .feat__link:hover .feat__video { transform: scale(1.05); }
+  .feat__link:hover .feat__bar { animation: feat-run .8s linear infinite; }
+}
+.feats__more { margin-top: 2rem; }
+@media (min-width: 900px) {
+  /* escritorio: la primera grande a la izquierda (2 columnas × 2 filas); las chicas definen el alto de cada fila con su 4:5 */
+  .feats { grid-auto-flow: row dense; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-columns: auto; gap: 1.2rem;
+    overflow: visible; margin-inline: 0; padding: 0; scroll-snap-type: none; }
+  .feat__link { aspect-ratio: 5 / 4; }   /* apaisadas: la grande (2×2) queda en ~680 px de alto y entra en la pantalla */
+  .feat--big { grid-column: span 2; grid-row: span 2; }
+  .feat--big .feat__link { aspect-ratio: auto; height: 100%; }
+  .feat__t { font-size: clamp(1.9rem, 2.3vw, 2.4rem); }
+  .feat--big .feat__t { font-size: clamp(3rem, 4.6vw, 4.6rem); }
+  .feat--big .feat__body { padding: 1.6rem 1.8rem 1.8rem; gap: .7rem; }
+  .feat--big .feat__r { font-size: 1rem; }
+  .feat--big .feat__k { font-size: .72rem; }
+}
+/* entrada en cascada de las tarjetas (como los hitos de la trayectoria) */
+.feat { transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: calc(.15s + var(--i, 0) * .08s); }
+.js:not(.no-app) .feats[data-reveal] { opacity: 1; transform: none; }   /* la lista no se mueve entera: se mueven sus tarjetas */
+.js:not(.no-app) .feats:not(.is-in) .feat { opacity: 0; transform: translateY(16px); }
+
+/* «Ver todos los trabajos»: una pieza grande, con la franja de la claqueta al costado. Al pasar el mouse la franja «corre»
+   (como el brazo de la claqueta), el borde se enciende y la flecha avanza. */
+.more { position: relative; display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; align-items: center; gap: 1.1rem 1.4rem;
+  padding: 1.3rem 1.3rem 1.3rem 1.1rem; border: 1px solid var(--line-2); border-radius: 14px; overflow: hidden; isolation: isolate;
+  background: radial-gradient(120% 140% at 100% 50%, rgba(176,132,255,.16), transparent 60%), var(--panel);
+  transition: border-color .3s, transform .5s var(--ease); }
+.more__bar { align-self: stretch; min-height: 64px; border-radius: 3px;
+  background: repeating-linear-gradient(-45deg, var(--accent) 0 9px, var(--bg) 9px 18px); background-size: 100% 25.5px; }
+.more__body { display: flex; flex-direction: column; gap: .55rem; min-width: 0; }
+.more__t { font: 400 clamp(2.1rem, 8.5vw, 3.6rem)/.95 var(--display); letter-spacing: -.015em; color: var(--fg); }
+.more__t em { font-style: italic; color: var(--accent); }
+.more__n { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+.more__go { display: grid; place-items: center; width: 56px; height: 56px; flex: none; border-radius: 50%; border: 1px solid var(--ui-border);
+  color: var(--fg); font-size: 1.35rem; transition: background .3s, border-color .3s, color .3s; }
+.more__go .ico { transition: transform .4s var(--ease); }
+.more:focus-visible { outline-offset: 4px; }
+@keyframes more-run { to { background-position: 0 25.5px; } }
+@media (hover: hover) {
+  .more:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .more:hover .more__bar { animation: more-run .9s linear infinite; }
+  .more:hover .more__go { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .more:hover .more__go .ico { transform: translateX(4px); }
+}
+.more:focus-visible .more__go { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+@media (max-width: 420px) {   /* que «11 proyectos · 20 créditos» entre en un renglón */
+  .more { gap: .9rem 1rem; padding-right: 1rem; }
+  .more__n { letter-spacing: .06em; }
+  .more__go { width: 48px; height: 48px; font-size: 1.15rem; }
+}
+@media (max-width: 340px) { .more__go { display: none; } .more { grid-template-columns: 12px minmax(0, 1fr); } }   /* 320 px: sin la flecha (toda la pieza es el link) entra la cuenta en un renglón */
+@media (min-width: 900px) {
+  .more { grid-template-columns: 14px minmax(0, 1fr) auto; padding: 1.8rem 2rem 1.8rem 1.6rem; gap: 2rem; }
+  .more__bar { min-height: 96px; }
+  .more__go { width: 72px; height: 72px; font-size: 1.6rem; }
+}
+@media (min-width: 900px) {
+  .feats { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-columns: auto; gap: 1.4rem; overflow: visible;
+    margin-inline: 0; padding: 0; scroll-snap-type: none; }
+  .feat__t { font-size: clamp(1.9rem, 2.4vw, 2.4rem); }
+}
+/* entrada en cascada de las tarjetas (como los hitos de la trayectoria) */
+.feat { transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: calc(.15s + var(--i, 0) * .08s); }
+.js:not(.no-app) .feats[data-reveal] { opacity: 1; transform: none; }   /* la lista no se mueve entera: se mueven sus tarjetas */
+.js:not(.no-app) .feats:not(.is-in) .feat { opacity: 0; transform: translateY(16px); }
+
+/* ---------- página de trabajos: encabezado ---------- */
+.page-works .works { padding-top: 7.5rem; }
+.works__title { font: 400 clamp(3.4rem, 15vw, 8rem)/.92 var(--display); letter-spacing: -.02em; margin: .8rem 0 1rem; }
+.nav__links a[aria-current="page"] { color: var(--fg); background: linear-gradient(var(--accent), var(--accent)) left bottom / 100% 2px no-repeat; }
+
+/* ---------- créditos ---------- */
+/* año · título (y artista) + tipo · rol · link. En el celular: año a la izquierda y lo demás apilado. */
+.credits { margin-top: clamp(4rem, 9vw, 6.5rem); scroll-margin-top: 6rem; }
+.credits__title { font: 400 clamp(2.1rem, 7vw, 3.4rem)/1 var(--display); letter-spacing: -.015em; margin: .8rem 0 1.6rem; }
+.credits__list { list-style: none; border-top: 1px solid var(--line-2); }
+.cr { display: grid; grid-template-columns: 3.3rem minmax(0, 1fr); gap: .35rem 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.cr__y { grid-row: 1 / span 3; font-size: .78rem; letter-spacing: .06em; color: var(--accent); }
+.cr__main { min-width: 0; }
+.cr__t { font: 400 1.45rem/1.1 var(--display); letter-spacing: -.005em; }
+.cr__by { font-size: .92rem; color: var(--dim); }
+.cr__k { display: block; margin-top: .25rem; font: 400 .72rem/1.4 var(--mono); letter-spacing: .03em; color: var(--dim); }
+.cr__r { font-size: .92rem; }
+.cr__go { justify-self: start; display: inline-flex; align-items: center; gap: .45em; min-height: 44px; margin-top: .2rem; padding: 0 1em;
+  border: 1px solid var(--ui-border); border-radius: 999px; font: 500 .82rem/1 var(--sans); white-space: nowrap; transition: border-color .25s, color .25s; }
+.cr__go--none { display: none; border: 0; }   /* fila sin link: ocupa la columna, sin recuadro vacío */
+@media (hover: hover) { .cr__go:hover { border-color: var(--accent); color: var(--accent); } }
+@media (min-width: 900px) {
+  .cr { grid-template-columns: 4.2rem minmax(0, 1.25fr) minmax(0, 1fr) 9rem; align-items: center; }
+  .cr__y { grid-row: auto; }
+  .cr__go { justify-self: end; margin-top: 0; }
+  .cr__go--none { display: block; }
+}
+
+/* ---------- visor ---------- */
+.lb { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+      background: rgba(6,6,11,.96); color: var(--fg); }
+.lb:not([open]) { display: none; }
+.lb[open] { display: grid; place-items: center; }
+.lb::backdrop { background: rgba(6,6,11,.9); }
+.lb__fig { display: grid; gap: .8rem; justify-items: center; margin: 0; padding: 4rem 1rem 4.8rem; }
+/* El zoom es una transformación de la propia imagen (app.js): origen en el centro, sin tocar el layout.
+   touch-action:none = el dedo es del visor (pellizcar y arrastrar), no del navegador. */
+.lb__img { width: auto; height: auto; max-width: min(94vw, 1500px); max-height: 78vh; max-height: 78dvh; object-fit: contain; border-radius: 6px;
+  transform-origin: 50% 50%; touch-action: none; user-select: none; -webkit-user-drag: none; cursor: zoom-in; will-change: transform; }
+.lb__img.is-anim { transition: transform .24s var(--ease); }
+.lb.is-zoomed .lb__img { cursor: grab; border-radius: 0; }
+.lb.is-panning .lb__img { cursor: grabbing; }
+.lb.is-zoomed .lb__cap { opacity: 0; }   /* con zoom, la imagen manda */
+.lb__tools { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 3; display: flex; align-items: center; gap: .5rem; }
+.lb__tools .lb__btn { position: static; width: 44px; height: 44px; font-size: 1.15rem; line-height: 1; }
+.lb__pct { min-width: 3.6em; padding: .55em .8em; text-align: center; font-size: .8rem; color: var(--fg);
+  border: 1px solid var(--ui-border); border-radius: 999px; background: rgba(20,20,29,.85); }
+.lb__cap { font-size: .75rem; color: var(--dim); text-align: center; pointer-events: none; transition: opacity .2s; }   /* no interactivo: con zoom la imagen pasa por debajo y el epígrafe no debe comerse los clics ni el arrastre */
+.lb__btn { position: absolute; width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--ui-border);
+           background: rgba(20,20,29,.85); color: var(--fg); font-size: 1.1rem; cursor: pointer; display: grid; place-items: center;
+           transition: border-color .25s, color .25s; }
+@media (hover: hover) { .lb__btn:hover { border-color: var(--accent); color: var(--accent); } }
+.lb__close { top: 1rem; right: 1rem; }
+.lb__prev, .lb__next { top: 50%; transform: translateY(-50%); }
+.lb__prev { left: .8rem; }
+.lb__next { right: .8rem; }
+
+/* ---------- visor de video (la microficción) ---------- */
+.player { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+  background: rgba(6,6,11,.97); color: var(--fg); }
+.player:not([open]) { display: none; }
+.player[open] { display: grid; place-items: center; align-content: center; gap: .8rem; }
+.player::backdrop { background: rgba(6,6,11,.9); }
+.player__video { display: block; width: min(94vw, calc(84dvh * var(--ar, .5625))); height: auto; aspect-ratio: var(--ar, .5625); background: #000; border-radius: 6px; }
+.player__cap { font-size: .75rem; color: var(--dim); text-align: center; padding-inline: var(--gutter); }
+.player__close { top: 1rem; right: 1rem; z-index: 2; }
+html.is-locked { overflow: hidden; }
+
+/* ---------- menú del celular: «índice de escenas» ---------- */
+/* <dialog> a pantalla completa: arriba la franja de la claqueta, después las escenas (las mismas que anuncia cada sección)
+   y abajo los canales de contacto. La escena en la que estás va en violeta (app.js le pone aria-current). */
+.menu { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+  background: var(--bg); color: var(--fg); overflow-y: auto; overscroll-behavior: contain; }
+.menu:not([open]) { display: none; }
+.menu[open] { display: flex; flex-direction: column; animation: menuIn .32s var(--ease) both; }
+.menu::backdrop { background: var(--bg); }
+@keyframes menuIn { from { opacity: 0; transform: translateY(-14px); } }
+html.menu-open { overflow: hidden; }   /* que la página de atrás no se mueva mientras el menú está abierto */
+.menu__bar { flex: none; height: 11px; background: repeating-linear-gradient(-45deg, var(--accent) 0 14px, var(--bg) 14px 28px); }
+.menu__top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .6rem var(--gutter); }
+.menu__kicker { font: 400 .7rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+.menu__close { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--ui-border);
+  background: transparent; color: var(--fg); font-size: 1.05rem; cursor: pointer; }
+.menu__list { list-style: none; padding: .6rem var(--gutter) 0; }
+.menu__list li { border-bottom: 1px solid var(--line); }
+.menu[open] .menu__list li { animation: rise .55s var(--ease) both; animation-delay: calc(.06s + var(--i, 0) * .05s); }
+.menu__list a { display: flex; align-items: baseline; gap: 1rem; min-height: 44px; padding: .85rem 0 .75rem; }
+.menu__n { flex: none; width: 5.4rem; font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.menu__t { font: 400 clamp(2.1rem, 10.5vw, 3rem)/1 var(--display); letter-spacing: -.01em; }
+.menu__list a[aria-current] .menu__n, .menu__list a[aria-current] .menu__t { color: var(--accent); }
+.menu__list a[aria-current] .menu__t { font-style: italic; }
+.menu__chans { margin-top: auto; display: flex; flex-wrap: wrap; gap: .5rem; padding: 1.8rem var(--gutter) 2rem; }
+.menu__chan { display: inline-flex; align-items: center; gap: .5em; min-height: 44px; padding: .6em 1.1em; border: 1px solid var(--ui-border); border-radius: 999px; font: 500 .9rem/1 var(--sans); }
+.menu__close:focus-visible, .menu__chan:focus-visible { outline-offset: 2px; }
+main [tabindex="-1"]:focus { outline: none; }   /* la sección a la que lleva el menú recibe el foco (para lectores de pantalla); no se la enmarca entera */
+
+/* ---------- sobre mí ---------- */
+.about { display: grid; gap: 2.6rem; }
+.about__photo { margin: 0; width: min(100%, 420px); aspect-ratio: var(--ar); border-radius: 10px; overflow: hidden; background: var(--panel); }
+.about__photo img { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, 50% 50%); }   /* recorte vertical con ella centrada: ABOUT.photoAr / photoPos en content.js */
+/* el retrato «se revela» como en el laboratorio: entra en blanco y negro, oscuro, y aparece el color.
+   Solo con JS (el estado oscuro existe solo antes de .is-in): sin JS o si app.js no carga, la foto está tal cual. */
+.about__photo img { transition: filter 2s var(--ease) .25s; }
+.js:not(.no-app) .about__photo[data-reveal]:not(.is-in) img { filter: grayscale(1) brightness(.45) contrast(1.2); }
+.about__big { font: 400 clamp(2.8rem, 9vw, 5rem)/.96 var(--display); letter-spacing: -.02em; margin: .8rem 0 1.4rem; }
+.about__quote { margin: 0 0 1.6rem; padding-left: 1rem; border-left: 2px solid var(--accent); max-width: 28ch;
+  font: italic 400 clamp(1.55rem, 4.6vw, 2.2rem)/1.12 var(--display); color: var(--accent); }
+.about__text p { margin-bottom: 1rem; max-width: 56ch; }
+.about__text em { font-style: normal; color: var(--accent); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 1.8rem; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.stat { background: var(--bg-2); padding: 1rem; }
+.stat b { display: block; font: 400 clamp(2.5rem, 7vw, 3.6rem)/1 var(--display); }
+.stat span { display: block; margin-top: .5rem; font: 400 .66rem/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--dim); }
+@media (min-width: 900px) { .about { grid-template-columns: minmax(260px, 420px) 1fr; gap: 5rem; align-items: center; } }
+
+/* ---------- trayectoria ---------- */
+.timeline-wrap { grid-column: 1 / -1; margin-top: clamp(1.4rem, 4vw, 3rem); }
+.timeline { position: relative; display: grid; grid-template-columns: 1fr; margin-top: 1rem; }
+/* la línea se traza de izquierda a derecha y los hitos aparecen uno tras otro (--i = orden, lo pone templates.js) */
+.timeline::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--line-2); transform-origin: left; transition: transform 1.4s var(--ease); }
+.tl { display: grid; grid-template-columns: 5.6rem 1fr; gap: 1rem; align-items: baseline; padding: .95rem 0; border-bottom: 1px solid var(--line);
+  transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: calc(.25s + var(--i, 0) * .12s); }
+.js:not(.no-app) .timeline-wrap:not(.is-in) .timeline::before { transform: scaleX(0); }
+.js:not(.no-app) .timeline-wrap:not(.is-in) .tl { opacity: 0; transform: translateY(12px); }
+.tl__y { font: 400 clamp(2rem, 6vw, 2.8rem)/1 var(--display); color: var(--accent); }   /* 5,6rem: «2023» mide ~84px a 2,8rem; con menos pisaba el texto */
+.tl__t { font-size: .95rem; color: var(--fg); opacity: .92; }
+@media (min-width: 900px) {
+  .timeline { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }   /* una columna por hito, sean cuantos sean (con repeat(6) el séptimo caía a otra fila) */
+  .tl { position: relative; grid-template-columns: 1fr; gap: .6rem; padding: 1.5rem 1.2rem 0 0; border-bottom: 0; align-content: start; }   /* align-content:start: sin eso el grid reparte la altura sobrante y el texto de cada año arranca a distinta altura */
+  .tl::before { content: ""; position: absolute; top: -6px; left: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 14px rgba(176,132,255,.55); }
+  .tl__y { font-size: clamp(2.2rem, 3.4vw, 3rem); }
+}
+
+/* ---------- qué hago ---------- */
+.services__lead { color: var(--dim); max-width: 46ch; margin-top: 1rem; }
+/* tarjetas separadas por una línea fina (gap de 1px sobre fondo --line); 270px = ancho mínimo para que ninguna lista se apriete */
+.services__grid { display: grid; gap: 1px; margin-top: 2.4rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+  background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.svc { background: var(--bg-2); padding: 1.6rem 1.4rem 1.8rem; display: flex; flex-direction: column; gap: .8rem; }
+.svc__n { font: 400 .72rem/1 var(--mono); letter-spacing: .16em; color: var(--accent); }
+.svc__t { font: 400 clamp(2rem, 6.5vw, 2.6rem)/1 var(--display); letter-spacing: -.01em; }
+.svc__d { color: var(--dim); font-size: .95rem; }
+.svc__l { display: flex; flex-direction: column; gap: .55rem; margin-top: .2rem; }
+.svc__l li { position: relative; padding-left: 1.1em; font-size: .93rem; }
+.svc__l li::before { content: ""; position: absolute; left: 0; top: .72em; width: .5em; height: 1px; background: var(--accent); }
+
+/* ---------- herramientas ---------- */
+/* 250px = el chip más ancho («DaVinci Resolve» + aviso ≈ 233px): ninguna columna queda más angosta que su contenido */
+.tools__grid { display: grid; gap: 2rem; margin-top: 2.2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+.tools__list { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
+.tool { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .35em .7em; max-width: 100%; padding: .4em 1.05em .4em .4em; border: 1px solid var(--ui-border); border-radius: 16px; font-size: .92rem; background: var(--panel);
+  transition: border-color .25s; }
+@media (hover: hover) { .tool:hover { border-color: var(--accent); } }
+.tool--pending { border-style: dashed; color: var(--dim); background: transparent; }
+/* ícono: dibujo propio de lo que se HACE con la herramienta (templates.js → TOOL_ICONS), en un cuadrito como el de una app */
+.tool__ico { flex: none; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 10px; background: var(--tile); border: 1px solid rgba(176,132,255,.3); color: var(--accent); }
+.tool__ico svg { width: 1.35rem; height: 1.35rem; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.tool__ico .i-fill { fill: currentColor; }
+.tool__ico .i-k { fill: var(--tile); }
+.tool__ico :is(.i-play, .i-clip) { fill: currentColor; fill-opacity: .25; }
+.tool__ico .i-ruler { stroke-opacity: .5; }
+/* 1) al entrar en pantalla, cada ícono se dibuja en cascada (pathLength=1: la línea entera mide 1) */
+.tool__ico path { stroke-dasharray: 1 1.2; stroke-dashoffset: 0; transition: stroke-dashoffset 1s var(--ease) calc(.2s + var(--i, 0) * 80ms), fill-opacity .6s ease calc(.7s + var(--i, 0) * 80ms); }
+.js:not(.no-app) .tools__grid:not(.is-in) .tool__ico path { stroke-dashoffset: 1.1; }
+.js:not(.no-app) .tools__grid:not(.is-in) .tool__ico :is(.i-fill, .i-play, .i-clip) { fill-opacity: 0; }   /* el relleno aparece después del trazo */
+/* 2) después hace lo suyo una vez (y de nuevo al pasar el mouse: app.js reinicia .is-play con --d: 0s) */
+.tool__ico :is(.i-ph, .i-puck, .i-play, .i-bar, .i-k, .i-l1, .i-w, .i-rec, .i-a1, .i-a2) { transform-box: fill-box; transform-origin: center; }
+.tool__ico .i-bar { transform-origin: left center; }
+.tool__ico .i-puck { transform-box: view-box; transform-origin: 12px 12px; }   /* el punto gira alrededor del centro de la rueda de color */
+.tool { --d: calc(1.1s + var(--i, 0) * 90ms); }
+.tool.is-play .i-ph   { animation: i-ph 1.6s var(--ease) var(--d) both; }
+.tool.is-play .i-puck { animation: i-puck 1.6s ease-in-out var(--d) both; }
+.tool.is-play .i-play { animation: i-pop 1.2s var(--ease) var(--d) both; }
+.tool.is-play .i-bar  { animation: i-bar 1.6s var(--ease) var(--d) both; }
+.tool.is-play .i-k1   { animation: i-k1 1.6s var(--ease) var(--d) both; }
+.tool.is-play .i-k2   { animation: i-k2 1.6s var(--ease) var(--d) both; }
+.tool.is-play .i-k3   { animation: i-k3 1.6s var(--ease) var(--d) both; }
+.tool.is-play .i-l1   { animation: i-l1 1.4s var(--ease) var(--d) both; }
+.tool.is-play .i-w    { animation: i-w .9s ease-in-out calc(var(--d) + var(--k, 0) * 70ms) 2 both; }
+.tool.is-play .i-rec  { animation: i-rec 1.5s steps(1) var(--d) both; }
+.tool.is-play .i-a1   { animation: i-arc 1.4s ease var(--d) both; }
+.tool.is-play .i-a2   { animation: i-arc 1.4s ease calc(var(--d) + .18s) both; }
+.tool.is-play .i-txt  { animation: i-txt 1.2s var(--ease) var(--d) both; }
+.tool.is-play .i-txt2 { animation-delay: calc(var(--d) + .3s); }
+@keyframes i-ph   { 50% { transform: translateX(11px); } }
+@keyframes i-puck { 55% { transform: rotate(-150deg); } }
+@keyframes i-pop  { 40% { transform: scale(1.3); } }
+@keyframes i-bar  { 0% { transform: scaleX(.15); } 100% { transform: scaleX(1); } }
+@keyframes i-k1   { 50% { transform: translateX(6px); } }
+@keyframes i-k2   { 50% { transform: translateX(-7px); } }
+@keyframes i-k3   { 50% { transform: translateX(4px); } }
+@keyframes i-l1   { 45% { transform: translateY(-2.6px); } }
+@keyframes i-w    { 30% { transform: scaleY(.4); } 65% { transform: scaleY(1.15); } }
+@keyframes i-rec  { 0%, 66%, 100% { opacity: 1; } 16%, 50%, 83% { opacity: .1; } }
+@keyframes i-arc  { 0% { opacity: .15; } 40% { opacity: 1; } 70% { opacity: .35; } 100% { opacity: 1; } }
+@keyframes i-txt  { from { stroke-dashoffset: 1.1; } to { stroke-dashoffset: 0; } }
+
+/* ---------- contacto ---------- */
+.contact { background: radial-gradient(60% 70% at 50% 100%, rgba(176,132,255,.16), transparent 70%), var(--bg); border-top: 1px solid var(--line); }
+.contact__title { font: 400 clamp(3.2rem, 16vw, 9rem)/.92 var(--display); letter-spacing: -.02em; margin: .9rem 0 1.2rem; }
+.contact__lead { max-width: 44ch; color: var(--dim); font-size: 1.1rem; }
+.contact__actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+/* botón partido: [ WhatsApp 11 7385-0504 ↗ | ⧉ Copiar ] es UNA sola pieza (así no hay duda de a qué dato pertenece «Copiar») */
+.chan { display: flex; align-items: stretch; max-width: 100%; }
+.chan--split { border: 1px solid var(--ui-border); border-radius: 999px; overflow: hidden; transition: border-color .3s; }
+.chan--split:hover, .chan--split:focus-within { border-color: var(--accent); }
+.chan--split .btn { border: 0; border-radius: 0; flex: 1 1 auto; min-width: 0; }
+.copy { display: none; align-items: center; gap: .45em; padding: .55em 1.15em .55em 1em; border: 0; border-left: 1px solid var(--line-2); border-radius: 0; background: transparent;
+  color: var(--dim); font: 400 .76rem/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; cursor: pointer; transition: color .25s, background .25s; }
+.copy:hover { color: var(--accent); }
+.copy.is-done { color: var(--accent-ink); background: var(--accent); }
+.chan--split .copy:focus-visible, .chan--split .btn:focus-visible { outline-offset: -4px; }
+@media (hover: hover) and (pointer: fine) { .copy:not([hidden]) { display: inline-flex; } }   /* en el celular no hace falta: tocar el botón abre WhatsApp / el mail */
+.contact__meta { margin-top: 2.4rem; color: var(--dim); font-size: .78rem; display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; }
+.contact__meta i { font-style: normal; opacity: .5; }
+@media (max-width: 719px) { .contact__meta i { display: none; } }
+
+/* ---------- footer ---------- */
+.footer { display: flex; flex-wrap: wrap; gap: .6rem 2rem; justify-content: space-between; align-items: baseline; padding-block: 0 3rem; color: var(--dim); font-size: .74rem; }
+.footer::before { content: ""; flex: 0 0 100%; height: 1px; background: var(--line); margin-bottom: 1.6rem; }   /* la línea del ancho del contenido, no del wrap */
+.footer__top:hover { color: var(--accent); }
+
+/* ---------- revelado al scroll ---------- */
+.js [data-reveal] { opacity: 0; transform: translateY(22px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.js [data-reveal].is-in { opacity: 1; transform: none; }
+.no-app [data-reveal] { opacity: 1 !important; transform: none !important; }   /* si app.js no cargó */
+/* títulos de sección: entran con un barrido de izquierda a derecha, como una transición de montaje.
+   Los márgenes negativos del recorte dejan aire a las letras que salen de su caja (cursivas, descendentes). */
+/* curva elegida midiendo el avance: con --ease el 85 % pasaba en medio segundo (no se veía el barrido); con una muy lenta
+   al arrancar, el título quedaba medio segundo tapado. Esta: mitad a ~0,5 s, entero a ~0,9 s. */
+:is(.h2, .about__big, .contact__title) { transition: clip-path 1s cubic-bezier(.4, 0, .2, 1) .1s; }
+.js:not(.no-app) [data-reveal]:not(.is-in) :is(.h2, .about__big, .contact__title) { clip-path: inset(-30% 100% -30% -8%); }
+.js:not(.no-app) [data-reveal].is-in :is(.h2, .about__big, .contact__title) { clip-path: inset(-30% -8% -30% -8%); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js [data-reveal] { opacity: 1; transform: none; }
+}

@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Plantilla de la imagen para compartir (1200×630). Los marcadores entre llaves dobles (HERO_URL, HERO_POS, EYEBROW, NAME_FIRST,
+     NAME_REST, TAGLINE) los completa scripts/og/make-og.js desde content.js y el manifest de imágenes: así el nombre,
+     el rótulo, la bajada y la foto NUNCA quedan desactualizados. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+html,body{margin:0;width:1200px;height:630px;background:#0A0A10;overflow:hidden}
+.card{position:relative;width:1200px;height:630px;background:#0A0A10;color:#EEEAF4}
+.img{position:absolute;right:0;top:0;width:620px;height:630px;-webkit-mask-image:linear-gradient(to right,transparent,#000 42%)}
+.img img{width:100%;height:100%;object-fit:cover;object-position:{{HERO_POS}}}
+.txt{position:absolute;left:72px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;width:640px}
+.eb{font:400 21px/1 "IBM Plex Mono",monospace;letter-spacing:.13em;text-transform:uppercase;color:#B084FF;display:flex;align-items:center;gap:16px}
+.eb:before{content:"";width:44px;height:3px;background:#B084FF}
+h1{font:400 170px/.86 "Instrument Serif",serif;letter-spacing:-.02em;margin:26px 0 24px}
+p{font:italic 400 64px/1 "Instrument Serif",serif;color:#B084FF;margin:0}
+.bar{position:absolute;left:0;right:0;bottom:0;height:16px;background:repeating-linear-gradient(-45deg,#B084FF 0 18px,#0A0A10 18px 36px)}
+</style></head><body><div class="card">
+<div class="img"><img src="{{HERO_URL}}"></div>
+<div class="txt"><div class="eb">{{EYEBROW}}</div><h1>{{NAME_FIRST}}<br>{{NAME_REST}}</h1><p>{{TAGLINE}}</p></div>
+<div class="bar"></div></div></body></html>

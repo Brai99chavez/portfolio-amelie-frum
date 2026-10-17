@@ -1,0 +1,145 @@
+{
+ "hero-rodaje": {
+  "file": "hero-rodaje-ce449d0f.mp4",
+  "poster": "hero-rodaje-2d0f2875.webp",
+  "w": 720,
+  "h": 1280,
+  "dur": 6,
+  "bytes": 1026860,
+  "audio": false,
+  "hdrSrc": "HLG",
+  "sig": "088856ff6f509ddc44625f3587b6e3a7"
+ },
+ "brujas-camara": {
+  "file": "brujas-camara-071faba5.mp4",
+  "poster": "brujas-camara-db05e85b.webp",
+  "w": 720,
+  "h": 1280,
+  "dur": 6.23,
+  "bytes": 748455,
+  "audio": false,
+  "hdrSrc": "HLG",
+  "sig": "92311ba43f82b332d35823dbd00d4814"
+ },
+ "brujas-tablet": {
+  "file": "brujas-tablet-7ac486c8.mp4",
+  "poster": "brujas-tablet-d092e34b.webp",
+  "w": 720,
+  "h": 1280,
+  "dur": 6,
+  "bytes": 545897,
+  "audio": false,
+  "hdrSrc": "HLG",
+  "sig": "31c2a658fb5653ad507d85fd11ea8aa2"
+ },
+ "prohibido-gimbal": {
+  "file": "prohibido-gimbal-88674c69.mp4",
+  "poster": "prohibido-gimbal-e45aaaf9.webp",
+  "w": 1280,
+  "h": 720,
+  "dur": 6.01,
+  "bytes": 678174,
+  "audio": false,
+  "hdrSrc": "",
+  "sig": "f251c286a9acfb84d57d1fc858c2a02b"
+ },
+ "prohibido-estudio": {
+  "file": "prohibido-estudio-b2c98e25.mp4",
+  "poster": "prohibido-estudio-54bb18db.webp",
+  "w": 1280,
+  "h": 720,
+  "dur": 6.01,
+  "bytes": 595580,
+  "audio": false,
+  "hdrSrc": "",
+  "sig": "4d8ea4821d0f1c6fedb7ece6990e93f2"
+ },
+ "prohibido-camara": {
+  "file": "prohibido-camara-5e478e15.mp4",
+  "poster": "prohibido-camara-45ad7053.webp",
+  "w": 1280,
+  "h": 720,
+  "dur": 6.01,
+  "bytes": 709705,
+  "audio": false,
+  "hdrSrc": "",
+  "sig": "8051c3d008c4eb88a6419256cf43f98b"
+ },
+ "sol-piloto": {
+  "file": "sol-piloto-ff11cf8a.mp4",
+  "poster": "sol-piloto-7f77c3e9.webp",
+  "w": 720,
+  "h": 1354,
+  "dur": 62.38,
+  "bytes": 10251283,
+  "audio": true,
+  "hdrSrc": "",
+  "sig": "9ee7a4642cc02b8b23fff0900ded4b4d"
+ },
+ "808-show": {
+  "file": "808-show-0bb0a224.mp4",
+  "poster": "808-show-6876f405.webp",
+  "w": 1280,
+  "h": 720,
+  "dur": 6,
+  "bytes": 794625,
+  "audio": false,
+  "hdrSrc": "",
+  "sig": "684bff62aa0aafce42a97b29a9ea1ad9"
+ },
+ "808-dj": {
+  "file": "808-dj-3b5f5bb6.mp4",
+  "poster": "808-dj-d07b4287.webp",
+  "w": 1280,
+  "h": 720,
+  "dur": 6,
+  "bytes": 852078,
+  "audio": false,
+  "hdrSrc": "",
+  "sig": "3442a601c2fe25358384e79b50b1a261"
+ },
+ "808-publico": {
+  "file": "808-publico-ea79186b.mp4",
+  "poster": "808-publico-30ba8342.webp",
+  "w": 1280,
+  "h": 720,
+  "dur": 6,
+  "bytes": 904949,
+  "audio": false,
+  "hdrSrc": "",
+  "sig": "9a9624b56a9c02eb61db240050365591"
+ },
+ "eventos-quince": {
+  "file": "eventos-quince-10db574c.mp4",
+  "poster": "eventos-quince-6ea6f1dc.webp",
+  "w": 1280,
+  "h": 720,
+  "dur": 7.01,
+  "bytes": 845312,
+  "audio": false,
+  "hdrSrc": "",
+  "sig": "ecfcdc94551f783462ab59f5a3ee8f01"
+ },
+ "eventos-boda": {
+  "file": "eventos-boda-962693ba.mp4",
+  "poster": "eventos-boda-5e6bfc8c.webp",
+  "w": 1280,
+  "h": 720,
+  "dur": 6.01,
+  "bytes": 1197619,
+  "audio": false,
+  "hdrSrc": "",
+  "sig": "163436f6b386119fc543ad72eec602df"
+ },
+ "sol-loop": {
+  "file": "sol-loop-fa6561bd.mp4",
+  "poster": "sol-loop-9edbff1f.webp",
+  "w": 720,
+  "h": 1354,
+  "dur": 6,
+  "bytes": 633999,
+  "audio": false,
+  "hdrSrc": "",
+  "sig": "663b0e11af5e7d2f0e48719720c5da91"
+ }
+}

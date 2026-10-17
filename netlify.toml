@@ -1,0 +1,12 @@
+# Deploy en Netlify conectado al repo de GitHub: cada push arma el sitio solo.
+# Se publica SOLO dist/ (nunca contenido/ ni _analisis/, que ni siquiera están en el repo).
+# Los headers de cache viven en dist/_headers (los genera scripts/build.js).
+#
+# Hoy arma el MODO REVISIÓN (no indexable): es para mostrárselo a Amelie, no para publicar.
+# Para publicar de verdad (con los pendientes en 0 y 0): cambiar el comando a
+# "npm run build" y definir en Netlify la variable de entorno SITE_URL
+# (ej: https://ameliefrum.com) para que el build emita canonical, og:url, og:image y JSON-LD.
+
+[build]
+  command = "npm run build:revision"
+  publish = "dist"

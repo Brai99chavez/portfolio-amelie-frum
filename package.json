@@ -1,0 +1,20 @@
+{
+  "name": "amelie-frum-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfolio de Amelie Frum — producción, guion y dirección. HTML + CSS + JS puro, con build que pre-renderiza y arma dist/.",
+  "scripts": {
+    "start": "node scripts/build.js && node serve.js",
+    "build": "node scripts/build.js",
+    "optimize": "node scripts/optimize-img.js",
+    "og": "node scripts/og/make-og.js",
+    "diseno": "node scripts/disenos.js",
+    "build:revision": "node scripts/build.js --revision",
+    "zip": "node scripts/zip-dist.js",
+    "optimize:video": "node scripts/optimize-video.js"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "sharp": "^0.34.0"
+  }
+}

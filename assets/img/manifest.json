@@ -1,0 +1,1536 @@
+{
+ "brujas-caldero": {
+  "w": 4592,
+  "h": 8160,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 960,
+    "role": "card",
+    "file": "brujas-caldero-540w-87936041.webp",
+    "bytes": 53280,
+    "db": 40
+   },
+   {
+    "w": 1080,
+    "h": 1919,
+    "role": "card",
+    "file": "brujas-caldero-1080w-b8341356.webp",
+    "bytes": 155776,
+    "db": 41.7
+   },
+   {
+    "w": 1440,
+    "h": 2559,
+    "role": "big",
+    "file": "brujas-caldero-1440w-3d3a1949.webp",
+    "bytes": 242054,
+    "db": 42.8
+   },
+   {
+    "w": 2160,
+    "h": 3838,
+    "role": "zoom",
+    "file": "brujas-caldero-2160w-5ac29d0f.webp",
+    "bytes": 430624,
+    "db": 44.7
+   }
+  ]
+ },
+ "brujas-mesa": {
+  "w": 4592,
+  "h": 8160,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 960,
+    "role": "card",
+    "file": "brujas-mesa-540w-8cfa6c82.webp",
+    "bytes": 90336,
+    "db": 38.9
+   },
+   {
+    "w": 1080,
+    "h": 1919,
+    "role": "card",
+    "file": "brujas-mesa-1080w-4e68fe93.webp",
+    "bytes": 255246,
+    "db": 40.7
+   },
+   {
+    "w": 1440,
+    "h": 2559,
+    "role": "big",
+    "file": "brujas-mesa-1440w-566e9849.webp",
+    "bytes": 388598,
+    "db": 41.6
+   },
+   {
+    "w": 2160,
+    "h": 3838,
+    "role": "zoom",
+    "file": "brujas-mesa-2160w-4a452456.webp",
+    "bytes": 663488,
+    "db": 42.9
+   }
+  ]
+ },
+ "brujas-perfil": {
+  "w": 4592,
+  "h": 8160,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 960,
+    "role": "card",
+    "file": "brujas-perfil-540w-d0859bba.webp",
+    "bytes": 46928,
+    "db": 41
+   },
+   {
+    "w": 1080,
+    "h": 1919,
+    "role": "card",
+    "file": "brujas-perfil-1080w-24de3691.webp",
+    "bytes": 137840,
+    "db": 42.4
+   },
+   {
+    "w": 1440,
+    "h": 2559,
+    "role": "big",
+    "file": "brujas-perfil-1440w-9dd8648a.webp",
+    "bytes": 220516,
+    "db": 43.4
+   },
+   {
+    "w": 2160,
+    "h": 3838,
+    "role": "zoom",
+    "file": "brujas-perfil-2160w-f3316694.webp",
+    "bytes": 386896,
+    "db": 45.1
+   }
+  ]
+ },
+ "brujas-cocina": {
+  "w": 4592,
+  "h": 8160,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 960,
+    "role": "card",
+    "file": "brujas-cocina-540w-fc04855c.webp",
+    "bytes": 71710,
+    "db": 37.5
+   },
+   {
+    "w": 1080,
+    "h": 1919,
+    "role": "card",
+    "file": "brujas-cocina-1080w-3cdb3cac.webp",
+    "bytes": 241264,
+    "db": 38.3
+   },
+   {
+    "w": 1440,
+    "h": 2559,
+    "role": "big",
+    "file": "brujas-cocina-1440w-1298c861.webp",
+    "bytes": 381642,
+    "db": 39.5
+   },
+   {
+    "w": 2160,
+    "h": 3838,
+    "role": "zoom",
+    "file": "brujas-cocina-2160w-24eecc7a.webp",
+    "bytes": 677864,
+    "db": 42.5
+   }
+  ]
+ },
+ "brujas-set": {
+  "w": 4592,
+  "h": 8160,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 960,
+    "role": "card",
+    "file": "brujas-set-540w-b7540829.webp",
+    "bytes": 117402,
+    "db": 35.7
+   },
+   {
+    "w": 1080,
+    "h": 1919,
+    "role": "card",
+    "file": "brujas-set-1080w-5c9cbd9d.webp",
+    "bytes": 425926,
+    "db": 35.9
+   },
+   {
+    "w": 1440,
+    "h": 2559,
+    "role": "big",
+    "file": "brujas-set-1440w-ea9448f3.webp",
+    "bytes": 681640,
+    "db": 37.1
+   },
+   {
+    "w": 2160,
+    "h": 3838,
+    "role": "zoom",
+    "file": "brujas-set-2160w-7aa6e3fb.webp",
+    "bytes": 1244096,
+    "db": 40.1
+   }
+  ]
+ },
+ "brujas-monitor": {
+  "w": 4592,
+  "h": 8160,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 960,
+    "role": "card",
+    "file": "brujas-monitor-540w-7ccee201.webp",
+    "bytes": 108170,
+    "db": 36.4
+   },
+   {
+    "w": 1080,
+    "h": 1919,
+    "role": "card",
+    "file": "brujas-monitor-1080w-27523308.webp",
+    "bytes": 378096,
+    "db": 36.2
+   },
+   {
+    "w": 1440,
+    "h": 2559,
+    "role": "big",
+    "file": "brujas-monitor-1440w-8479e2ae.webp",
+    "bytes": 608626,
+    "db": 37.5
+   },
+   {
+    "w": 2160,
+    "h": 3838,
+    "role": "zoom",
+    "file": "brujas-monitor-2160w-ad75aaca.webp",
+    "bytes": 1066206,
+    "db": 40.3
+   }
+  ]
+ },
+ "backstage-set": {
+  "w": 4592,
+  "h": 8160,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 960,
+    "role": "card",
+    "file": "backstage-set-540w-4a09a95d.webp",
+    "bytes": 102680,
+    "db": 35.9
+   },
+   {
+    "w": 1080,
+    "h": 1919,
+    "role": "card",
+    "file": "backstage-set-1080w-57dd9fc2.webp",
+    "bytes": 374644,
+    "db": 36.1
+   },
+   {
+    "w": 1440,
+    "h": 2559,
+    "role": "big",
+    "file": "backstage-set-1440w-8ed57fde.webp",
+    "bytes": 601818,
+    "db": 37.4
+   },
+   {
+    "w": 2160,
+    "h": 3838,
+    "role": "zoom",
+    "file": "backstage-set-2160w-36b0abfe.webp",
+    "bytes": 1055750,
+    "db": 40.3
+   }
+  ]
+ },
+ "sobre-mi": {
+  "w": 2992,
+  "h": 2000,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 535,
+    "role": "card",
+    "file": "sobre-mi-800w-b78ceb7b.webp",
+    "bytes": 49796,
+    "db": 40.2
+   },
+   {
+    "w": 1600,
+    "h": 1070,
+    "role": "card",
+    "file": "sobre-mi-1600w-c8bffbfb.webp",
+    "bytes": 201548,
+    "db": 39.6
+   },
+   {
+    "w": 2200,
+    "h": 1471,
+    "role": "big",
+    "file": "sobre-mi-2200w-845a7aee.webp",
+    "bytes": 477484,
+    "db": 39.3
+   },
+   {
+    "w": 2880,
+    "h": 1925,
+    "role": "zoom",
+    "file": "sobre-mi-2880w-1f3528e1.webp",
+    "bytes": 939340,
+    "db": 38.8
+   }
+  ]
+ },
+ "sol-claqueta": {
+  "w": 720,
+  "h": 851,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 851,
+    "role": "card",
+    "file": "sol-claqueta-720w-59c5964b.webp",
+    "bytes": 209488,
+    "db": 44.7
+   }
+  ]
+ },
+ "sol-sonido": {
+  "w": 719,
+  "h": 873,
+  "q": 95,
+  "variants": [
+   {
+    "w": 719,
+    "h": 873,
+    "role": "card",
+    "file": "sol-sonido-719w-c65b11e0.webp",
+    "bytes": 72886,
+    "db": 46
+   }
+  ]
+ },
+ "sol-reflector": {
+  "w": 720,
+  "h": 850,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 850,
+    "role": "card",
+    "file": "sol-reflector-720w-4605d14b.webp",
+    "bytes": 59494,
+    "db": 46.2
+   }
+  ]
+ },
+ "sol-cortinas": {
+  "w": 719,
+  "h": 859,
+  "q": 95,
+  "variants": [
+   {
+    "w": 719,
+    "h": 859,
+    "role": "card",
+    "file": "sol-cortinas-719w-3200cceb.webp",
+    "bytes": 126650,
+    "db": 44.4
+   }
+  ]
+ },
+ "sol-celular": {
+  "w": 719,
+  "h": 848,
+  "q": 95,
+  "variants": [
+   {
+    "w": 719,
+    "h": 848,
+    "role": "card",
+    "file": "sol-celular-719w-fbcd23a7.webp",
+    "bytes": 147810,
+    "db": 45.5
+   }
+  ]
+ },
+ "sol-claqueta-2": {
+  "w": 720,
+  "h": 871,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 871,
+    "role": "card",
+    "file": "sol-claqueta-2-720w-70fd3e87.webp",
+    "bytes": 132046,
+    "db": 45.8
+   }
+  ]
+ },
+ "sol-claqueta-3": {
+  "w": 719,
+  "h": 875,
+  "q": 95,
+  "variants": [
+   {
+    "w": 719,
+    "h": 875,
+    "role": "card",
+    "file": "sol-claqueta-3-719w-da802263.webp",
+    "bytes": 93222,
+    "db": 46.6
+   }
+  ]
+ },
+ "sol-pared": {
+  "w": 719,
+  "h": 843,
+  "q": 95,
+  "variants": [
+   {
+    "w": 719,
+    "h": 843,
+    "role": "card",
+    "file": "sol-pared-719w-1284dd98.webp",
+    "bytes": 83870,
+    "db": 45.9
+   }
+  ]
+ },
+ "808-cantante": {
+  "w": 2000,
+  "h": 2992,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 808,
+    "role": "card",
+    "file": "808-cantante-540w-8eff4e70.webp",
+    "bytes": 142606,
+    "db": 37.3
+   },
+   {
+    "w": 1080,
+    "h": 1616,
+    "role": "card",
+    "file": "808-cantante-1080w-218671c6.webp",
+    "bytes": 736082,
+    "db": 37.5
+   },
+   {
+    "w": 1440,
+    "h": 2154,
+    "role": "big",
+    "file": "808-cantante-1440w-49862f2f.webp",
+    "bytes": 1403418,
+    "db": 37
+   },
+   {
+    "w": 2000,
+    "h": 2992,
+    "role": "zoom",
+    "file": "808-cantante-2000w-e89a6399.webp",
+    "bytes": 2933756,
+    "db": 35.7
+   }
+  ]
+ },
+ "808-vivo": {
+  "w": 2992,
+  "h": 2000,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 535,
+    "role": "card",
+    "file": "808-vivo-800w-92535ce0.webp",
+    "bytes": 91194,
+    "db": 39.1
+   },
+   {
+    "w": 1600,
+    "h": 1070,
+    "role": "card",
+    "file": "808-vivo-1600w-cc15043a.webp",
+    "bytes": 558624,
+    "db": 38.5
+   },
+   {
+    "w": 2200,
+    "h": 1471,
+    "role": "big",
+    "file": "808-vivo-2200w-592921dc.webp",
+    "bytes": 1225234,
+    "db": 37.9
+   },
+   {
+    "w": 2880,
+    "h": 1925,
+    "role": "zoom",
+    "file": "808-vivo-2880w-78fd9831.webp",
+    "bytes": 2248752,
+    "db": 37.3
+   }
+  ]
+ },
+ "808-flash": {
+  "w": 2000,
+  "h": 2992,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 808,
+    "role": "card",
+    "file": "808-flash-540w-9323ba90.webp",
+    "bytes": 77548,
+    "db": 39.5
+   },
+   {
+    "w": 1080,
+    "h": 1616,
+    "role": "card",
+    "file": "808-flash-1080w-c78964f7.webp",
+    "bytes": 484648,
+    "db": 39.1
+   },
+   {
+    "w": 1440,
+    "h": 2154,
+    "role": "big",
+    "file": "808-flash-1440w-f9e1fb43.webp",
+    "bytes": 1026510,
+    "db": 38.6
+   },
+   {
+    "w": 2000,
+    "h": 2992,
+    "role": "zoom",
+    "file": "808-flash-2000w-d5398323.webp",
+    "bytes": 2265972,
+    "db": 37.5
+   }
+  ]
+ },
+ "arena-set": {
+  "w": 720,
+  "h": 710,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 710,
+    "role": "card",
+    "file": "arena-set-720w-2f637360.webp",
+    "bytes": 102720,
+    "db": 45.5
+   }
+  ]
+ },
+ "arena-obs": {
+  "w": 523,
+  "h": 672,
+  "q": 95,
+  "variants": [
+   {
+    "w": 523,
+    "h": 672,
+    "role": "card",
+    "file": "arena-obs-523w-59737b7b.webp",
+    "bytes": 83544,
+    "db": 45.6
+   }
+  ]
+ },
+ "arena-halloween": {
+  "w": 720,
+  "h": 610,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 610,
+    "role": "card",
+    "file": "arena-halloween-720w-93648b21.webp",
+    "bytes": 124904,
+    "db": 45.4
+   }
+  ]
+ },
+ "arena-risas": {
+  "w": 720,
+  "h": 613,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 613,
+    "role": "card",
+    "file": "arena-risas-720w-a4db5a4f.webp",
+    "bytes": 65510,
+    "db": 48.9
+   }
+  ]
+ },
+ "modelaje-gorra": {
+  "w": 720,
+  "h": 863,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 863,
+    "role": "card",
+    "file": "modelaje-gorra-720w-f8fc8646.webp",
+    "bytes": 58684,
+    "db": 48.2
+   }
+  ]
+ },
+ "modelaje-sillon": {
+  "w": 669,
+  "h": 863,
+  "q": 95,
+  "variants": [
+   {
+    "w": 669,
+    "h": 863,
+    "role": "card",
+    "file": "modelaje-sillon-669w-b7af1640.webp",
+    "bytes": 58530,
+    "db": 47.5
+   }
+  ]
+ },
+ "modelaje-detalle": {
+  "w": 599,
+  "h": 944,
+  "q": 95,
+  "variants": [
+   {
+    "w": 599,
+    "h": 944,
+    "role": "card",
+    "file": "modelaje-detalle-599w-576f6f75.webp",
+    "bytes": 67480,
+    "db": 47.3
+   }
+  ]
+ },
+ "baby-artista": {
+  "w": 720,
+  "h": 956,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 956,
+    "role": "card",
+    "file": "baby-artista-720w-fbf3b253.webp",
+    "bytes": 126922,
+    "db": 47
+   }
+  ]
+ },
+ "baby-encaje": {
+  "w": 720,
+  "h": 992,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 992,
+    "role": "card",
+    "file": "baby-encaje-720w-814ca4ce.webp",
+    "bytes": 95386,
+    "db": 46.2
+   }
+  ]
+ },
+ "baby-gimbal": {
+  "w": 720,
+  "h": 975,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 975,
+    "role": "card",
+    "file": "baby-gimbal-720w-2bc50eb2.webp",
+    "bytes": 98216,
+    "db": 46.9
+   }
+  ]
+ },
+ "baby-clavel": {
+  "w": 720,
+  "h": 1009,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 1009,
+    "role": "card",
+    "file": "baby-clavel-720w-ab6d316f.webp",
+    "bytes": 46826,
+    "db": 48.3
+   }
+  ]
+ },
+ "baby-duo": {
+  "w": 720,
+  "h": 1001,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 1001,
+    "role": "card",
+    "file": "baby-duo-720w-c8bbe318.webp",
+    "bytes": 84232,
+    "db": 47.6
+   }
+  ]
+ },
+ "baby-rojo": {
+  "w": 720,
+  "h": 833,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 833,
+    "role": "card",
+    "file": "baby-rojo-720w-a273d264.webp",
+    "bytes": 54056,
+    "db": 47.5
+   }
+  ]
+ },
+ "basado-titulo": {
+  "w": 985,
+  "h": 567,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 461,
+    "role": "card",
+    "file": "basado-titulo-800w-702bf639.webp",
+    "bytes": 20954,
+    "db": 45.4
+   },
+   {
+    "w": 985,
+    "h": 567,
+    "role": "zoom",
+    "file": "basado-titulo-985w-4189ad08.webp",
+    "bytes": 25492,
+    "db": 45.7
+   }
+  ]
+ },
+ "basado-doble": {
+  "w": 987,
+  "h": 550,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 446,
+    "role": "card",
+    "file": "basado-doble-800w-63182ea5.webp",
+    "bytes": 28288,
+    "db": 43.4
+   },
+   {
+    "w": 987,
+    "h": 550,
+    "role": "zoom",
+    "file": "basado-doble-987w-e9e445f5.webp",
+    "bytes": 35724,
+    "db": 43.7
+   }
+  ]
+ },
+ "basado-road": {
+  "w": 1014,
+  "h": 527,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 416,
+    "role": "card",
+    "file": "basado-road-800w-2d56587f.webp",
+    "bytes": 32618,
+    "db": 39.8
+   },
+   {
+    "w": 1014,
+    "h": 527,
+    "role": "zoom",
+    "file": "basado-road-1014w-e950cc9a.webp",
+    "bytes": 40506,
+    "db": 41.5
+   }
+  ]
+ },
+ "prohibido-foto": {
+  "w": 1125,
+  "h": 1367,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 656,
+    "role": "card",
+    "file": "prohibido-foto-540w-249aafcc.webp",
+    "bytes": 34476,
+    "db": 43.8
+   },
+   {
+    "w": 1080,
+    "h": 1312,
+    "role": "card",
+    "file": "prohibido-foto-1080w-b2f389ef.webp",
+    "bytes": 83670,
+    "db": 45.4
+   }
+  ]
+ },
+ "sound-obs": {
+  "w": 4928,
+  "h": 3264,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 530,
+    "role": "card",
+    "file": "sound-obs-800w-e5e6b5fb.webp",
+    "bytes": 80290,
+    "db": 38.2
+   },
+   {
+    "w": 1600,
+    "h": 1060,
+    "role": "card",
+    "file": "sound-obs-1600w-870a9d32.webp",
+    "bytes": 211384,
+    "db": 40.3
+   },
+   {
+    "w": 2200,
+    "h": 1457,
+    "role": "big",
+    "file": "sound-obs-2200w-61803c4c.webp",
+    "bytes": 349864,
+    "db": 41.1
+   },
+   {
+    "w": 2880,
+    "h": 1908,
+    "role": "zoom",
+    "file": "sound-obs-2880w-965f1321.webp",
+    "bytes": 560740,
+    "db": 41.7
+   }
+  ]
+ },
+ "sound-podcast": {
+  "w": 3264,
+  "h": 4928,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 815,
+    "role": "card",
+    "file": "sound-podcast-540w-6aa0c2e9.webp",
+    "bytes": 81498,
+    "db": 39.1
+   },
+   {
+    "w": 1080,
+    "h": 1631,
+    "role": "card",
+    "file": "sound-podcast-1080w-d2c4e7ed.webp",
+    "bytes": 227820,
+    "db": 40.2
+   },
+   {
+    "w": 1440,
+    "h": 2174,
+    "role": "big",
+    "file": "sound-podcast-1440w-854b33ff.webp",
+    "bytes": 390908,
+    "db": 40.5
+   },
+   {
+    "w": 2160,
+    "h": 3261,
+    "role": "zoom",
+    "file": "sound-podcast-2160w-391438ae.webp",
+    "bytes": 882518,
+    "db": 41.1
+   }
+  ]
+ },
+ "sound-camara": {
+  "w": 4928,
+  "h": 3264,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 530,
+    "role": "card",
+    "file": "sound-camara-800w-936d6d42.webp",
+    "bytes": 78516,
+    "db": 39.4
+   },
+   {
+    "w": 1600,
+    "h": 1060,
+    "role": "card",
+    "file": "sound-camara-1600w-81b9dae2.webp",
+    "bytes": 247148,
+    "db": 40.4
+   },
+   {
+    "w": 2200,
+    "h": 1457,
+    "role": "big",
+    "file": "sound-camara-2200w-fd93285e.webp",
+    "bytes": 483818,
+    "db": 40.4
+   },
+   {
+    "w": 2880,
+    "h": 1908,
+    "role": "zoom",
+    "file": "sound-camara-2880w-f9fc5c08.webp",
+    "bytes": 799278,
+    "db": 40.6
+   }
+  ]
+ },
+ "foto-gel-rojo": {
+  "w": 1125,
+  "h": 1510,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 725,
+    "role": "card",
+    "file": "foto-gel-rojo-540w-ac86c483.webp",
+    "bytes": 66180,
+    "db": 40.4
+   },
+   {
+    "w": 1080,
+    "h": 1450,
+    "role": "card",
+    "file": "foto-gel-rojo-1080w-ed16bff3.webp",
+    "bytes": 166212,
+    "db": 42.6
+   }
+  ]
+ },
+ "foto-flores": {
+  "w": 1152,
+  "h": 2048,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 960,
+    "role": "card",
+    "file": "foto-flores-540w-6ffd4995.webp",
+    "bytes": 63512,
+    "db": 39.3
+   },
+   {
+    "w": 1080,
+    "h": 1920,
+    "role": "card",
+    "file": "foto-flores-1080w-9e5c3861.webp",
+    "bytes": 205558,
+    "db": 41
+   }
+  ]
+ },
+ "foto-sombra": {
+  "w": 1125,
+  "h": 1249,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 600,
+    "role": "card",
+    "file": "foto-sombra-540w-87587d12.webp",
+    "bytes": 69648,
+    "db": 41.2
+   },
+   {
+    "w": 1080,
+    "h": 1199,
+    "role": "card",
+    "file": "foto-sombra-1080w-5501006d.webp",
+    "bytes": 251198,
+    "db": 42.1
+   }
+  ]
+ },
+ "foto-jardinero": {
+  "w": 1125,
+  "h": 1485,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 713,
+    "role": "card",
+    "file": "foto-jardinero-540w-6cbfce1e.webp",
+    "bytes": 72734,
+    "db": 41.3
+   },
+   {
+    "w": 1080,
+    "h": 1426,
+    "role": "card",
+    "file": "foto-jardinero-1080w-9d35a9e1.webp",
+    "bytes": 163984,
+    "db": 43.1
+   }
+  ]
+ },
+ "foto-banda": {
+  "w": 1152,
+  "h": 2048,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 960,
+    "role": "card",
+    "file": "foto-banda-540w-ff4faf8c.webp",
+    "bytes": 85982,
+    "db": 39.7
+   },
+   {
+    "w": 1080,
+    "h": 1920,
+    "role": "card",
+    "file": "foto-banda-1080w-6b1293a0.webp",
+    "bytes": 277300,
+    "db": 40.5
+   }
+  ]
+ },
+ "foto-cantante-verde": {
+  "w": 1119,
+  "h": 1125,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 543,
+    "role": "card",
+    "file": "foto-cantante-verde-540w-4a40ad6f.webp",
+    "bytes": 57934,
+    "db": 39.1
+   },
+   {
+    "w": 1080,
+    "h": 1086,
+    "role": "card",
+    "file": "foto-cantante-verde-1080w-982a4d53.webp",
+    "bytes": 183484,
+    "db": 41.4
+   }
+  ]
+ },
+ "foto-gel-naranja": {
+  "w": 1125,
+  "h": 1492,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 716,
+    "role": "card",
+    "file": "foto-gel-naranja-540w-f95455f0.webp",
+    "bytes": 49968,
+    "db": 40.2
+   },
+   {
+    "w": 1080,
+    "h": 1432,
+    "role": "card",
+    "file": "foto-gel-naranja-1080w-e92cdeec.webp",
+    "bytes": 144756,
+    "db": 42.5
+   }
+  ]
+ },
+ "foto-humo": {
+  "w": 1100,
+  "h": 1394,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 684,
+    "role": "card",
+    "file": "foto-humo-540w-b1c17692.webp",
+    "bytes": 62256,
+    "db": 42.9
+   },
+   {
+    "w": 1080,
+    "h": 1369,
+    "role": "card",
+    "file": "foto-humo-1080w-272504dc.webp",
+    "bytes": 176362,
+    "db": 43.9
+   }
+  ]
+ },
+ "foto-flores-piso": {
+  "w": 2048,
+  "h": 1365,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 533,
+    "role": "card",
+    "file": "foto-flores-piso-800w-15db4b2e.webp",
+    "bytes": 87230,
+    "db": 37.7
+   },
+   {
+    "w": 1600,
+    "h": 1066,
+    "role": "card",
+    "file": "foto-flores-piso-1600w-3f881468.webp",
+    "bytes": 276098,
+    "db": 39
+   },
+   {
+    "w": 2048,
+    "h": 1365,
+    "role": "zoom",
+    "file": "foto-flores-piso-2048w-4d018364.webp",
+    "bytes": 463338,
+    "db": 39.2
+   }
+  ]
+ },
+ "foto-cantante-azul": {
+  "w": 1125,
+  "h": 1393,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 669,
+    "role": "card",
+    "file": "foto-cantante-azul-540w-50858a15.webp",
+    "bytes": 64522,
+    "db": 39.2
+   },
+   {
+    "w": 1080,
+    "h": 1337,
+    "role": "card",
+    "file": "foto-cantante-azul-1080w-874f2b81.webp",
+    "bytes": 190280,
+    "db": 41.9
+   }
+  ]
+ },
+ "foto-cumple": {
+  "w": 1125,
+  "h": 1664,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 799,
+    "role": "card",
+    "file": "foto-cumple-540w-8a9f83bf.webp",
+    "bytes": 92870,
+    "db": 39.8
+   },
+   {
+    "w": 1080,
+    "h": 1597,
+    "role": "card",
+    "file": "foto-cumple-1080w-240aba77.webp",
+    "bytes": 239692,
+    "db": 41.3
+   }
+  ]
+ },
+ "foto-pileta": {
+  "w": 1125,
+  "h": 1402,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 673,
+    "role": "card",
+    "file": "foto-pileta-540w-543922a8.webp",
+    "bytes": 65128,
+    "db": 40.7
+   },
+   {
+    "w": 1080,
+    "h": 1346,
+    "role": "card",
+    "file": "foto-pileta-1080w-58c976e7.webp",
+    "bytes": 177104,
+    "db": 41.9
+   }
+  ]
+ },
+ "808-escena": {
+  "w": 2992,
+  "h": 2000,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 535,
+    "role": "card",
+    "file": "808-escena-800w-137d0ce1.webp",
+    "bytes": 64948,
+    "db": 39.9
+   },
+   {
+    "w": 1600,
+    "h": 1070,
+    "role": "card",
+    "file": "808-escena-1600w-06cf6a05.webp",
+    "bytes": 489806,
+    "db": 39.1
+   },
+   {
+    "w": 2200,
+    "h": 1471,
+    "role": "big",
+    "file": "808-escena-2200w-c66bb2cc.webp",
+    "bytes": 1085548,
+    "db": 38.3
+   },
+   {
+    "w": 2880,
+    "h": 1925,
+    "role": "zoom",
+    "file": "808-escena-2880w-82286671.webp",
+    "bytes": 2063670,
+    "db": 37.6
+   }
+  ]
+ },
+ "808-neon": {
+  "w": 720,
+  "h": 796,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 796,
+    "role": "card",
+    "file": "808-neon-720w-ac027769.webp",
+    "bytes": 76226,
+    "db": 46.6
+   }
+  ]
+ },
+ "808-perfil": {
+  "w": 720,
+  "h": 799,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 799,
+    "role": "card",
+    "file": "808-perfil-720w-7e232413.webp",
+    "bytes": 55044,
+    "db": 47.5
+   }
+  ]
+ },
+ "808-voz": {
+  "w": 720,
+  "h": 780,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 780,
+    "role": "card",
+    "file": "808-voz-720w-62a12d8f.webp",
+    "bytes": 70804,
+    "db": 47.1
+   }
+  ]
+ },
+ "808-capucha": {
+  "w": 720,
+  "h": 789,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 789,
+    "role": "card",
+    "file": "808-capucha-720w-2d45382c.webp",
+    "bytes": 39958,
+    "db": 48.4
+   }
+  ]
+ },
+ "arena-gamer": {
+  "w": 720,
+  "h": 691,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 691,
+    "role": "card",
+    "file": "arena-gamer-720w-7ddde66d.webp",
+    "bytes": 90562,
+    "db": 46.7
+   }
+  ]
+ },
+ "arena-amigas": {
+  "w": 720,
+  "h": 615,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 615,
+    "role": "card",
+    "file": "arena-amigas-720w-8dedecf8.webp",
+    "bytes": 109314,
+    "db": 45.6
+   }
+  ]
+ },
+ "arena-grupo": {
+  "w": 720,
+  "h": 644,
+  "q": 95,
+  "variants": [
+   {
+    "w": 720,
+    "h": 644,
+    "role": "card",
+    "file": "arena-grupo-720w-36e2d0e4.webp",
+    "bytes": 135900,
+    "db": 46.7
+   }
+  ]
+ },
+ "arena-ring": {
+  "w": 483,
+  "h": 630,
+  "q": 95,
+  "variants": [
+   {
+    "w": 483,
+    "h": 630,
+    "role": "card",
+    "file": "arena-ring-483w-6b1fbf75.webp",
+    "bytes": 78832,
+    "db": 44.9
+   }
+  ]
+ },
+ "actuacion-desencuentro": {
+  "w": 1210,
+  "h": 717,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 474,
+    "role": "card",
+    "file": "actuacion-desencuentro-800w-0e88939d.webp",
+    "bytes": 20574,
+    "db": 44.7
+   },
+   {
+    "w": 1210,
+    "h": 717,
+    "role": "zoom",
+    "file": "actuacion-desencuentro-1210w-821ec038.webp",
+    "bytes": 34882,
+    "db": 46
+   }
+  ]
+ },
+ "actuacion-axolotl": {
+  "w": 1296,
+  "h": 720,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 444,
+    "role": "card",
+    "file": "actuacion-axolotl-800w-83afd32f.webp",
+    "bytes": 13148,
+    "db": 45.7
+   },
+   {
+    "w": 1296,
+    "h": 720,
+    "role": "zoom",
+    "file": "actuacion-axolotl-1296w-a0c603d0.webp",
+    "bytes": 24412,
+    "db": 47.3
+   }
+  ]
+ },
+ "evento-brindis": {
+  "w": 1125,
+  "h": 737,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 524,
+    "role": "card",
+    "file": "evento-brindis-800w-e8574b71.webp",
+    "bytes": 120692,
+    "db": 38.2
+   },
+   {
+    "w": 1125,
+    "h": 737,
+    "role": "zoom",
+    "file": "evento-brindis-1125w-bf5fa23b.webp",
+    "bytes": 218176,
+    "db": 39
+   }
+  ]
+ },
+ "evento-escalera": {
+  "w": 1125,
+  "h": 1673,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 803,
+    "role": "card",
+    "file": "evento-escalera-540w-89819c50.webp",
+    "bytes": 86640,
+    "db": 40.2
+   },
+   {
+    "w": 1080,
+    "h": 1606,
+    "role": "card",
+    "file": "evento-escalera-1080w-09f9b682.webp",
+    "bytes": 243942,
+    "db": 41.1
+   }
+  ]
+ },
+ "evento-graduado": {
+  "w": 1125,
+  "h": 1933,
+  "q": 90,
+  "variants": [
+   {
+    "w": 540,
+    "h": 928,
+    "role": "card",
+    "file": "evento-graduado-540w-a63d5f6e.webp",
+    "bytes": 140658,
+    "db": 39.9
+   },
+   {
+    "w": 1080,
+    "h": 1856,
+    "role": "card",
+    "file": "evento-graduado-1080w-a95ac3b7.webp",
+    "bytes": 673734,
+    "db": 40.8
+   }
+  ]
+ },
+ "evento-biblioteca": {
+  "w": 1125,
+  "h": 724,
+  "q": 90,
+  "variants": [
+   {
+    "w": 800,
+    "h": 515,
+    "role": "card",
+    "file": "evento-biblioteca-800w-9d59fc9e.webp",
+    "bytes": 115622,
+    "db": 38.2
+   },
+   {
+    "w": 1125,
+    "h": 724,
+    "role": "zoom",
+    "file": "evento-biblioteca-1125w-c1a503bb.webp",
+    "bytes": 204730,
+    "db": 39
+   }
+  ]
+ }
+}
