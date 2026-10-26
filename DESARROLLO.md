@@ -46,7 +46,7 @@ Textos, proyectos, herramientas y contacto viven en **un solo archivo**: `conten
   agregarlas al `frames` del proyecto y correr:
 
 ```bash
-npm run optimize   # genera las versiones WebP (sin EXIF/GPS) en assets/img/
+npm run fotos      # (uso diario) solo lo nuevo o cambiado; npm run optimize regenera todo: WebP sin EXIF/GPS en assets/img/<grupo>/
 npm run build      # pre-renderiza el sitio en dist/
 ```
 
@@ -54,6 +54,17 @@ npm run build      # pre-renderiza el sitio en dist/
   ponerlo en `frames`, `HERO.video` o `watch`, y correr `npm run optimize:video` (después `npm run build`).
 - **Las carpetas de `contenido/` se buscan a cualquier profundidad** por el comienzo del nombre: reorganizarlas no rompe nada.
   Si un nombre coincide con dos carpetas, el build falla y dice cuáles.
+
+## Sumar fotos sin tocar código (2026-10-26)
+
+Instrucciones para quien no programa: `contenido/LEEME.txt`. En corto:
+- `npm run fotos` (el de uso diario): mira `contenido/`, optimiza **solo lo nuevo o cambiado**, limpia lo que ya no está y rearma el sitio en modo revisión. `npm run optimize` regenera TODO (lento). `npm run serie -- "Nombre"` crea una carpeta nueva con un `serie.json`.
+- **Foto nueva en una carpeta que ya existe** → se suma al final de la galería del proyecto que más fotos de esa carpeta tiene (este diseño no tiene desplegable); `serie.json` con `destino` la manda a otro.
+- **Carpeta nueva** (idealmente en `PORTFOLIO CHUNI._/FOTOGRAFÍA_`) → proyecto nuevo de fotografía (filtro «Fotografía»). `serie.json` opcional: título, intro, tipo, año, lugar, roles, categoría, orden, destacadas, descripciones. Una carpeta que ya existía sin proyecto solo se vuelve proyecto si tiene `serie.json`.
+- **No publicar una foto:** `NO_` adelante del nombre.
+- **Lo nuevo** = lo que llegó después de `fotos-vistas.json` (todo lo que había al instalar esto; `npm run fotos -- --baseline`, una sola vez). La selección de Amelie (las fotos que a propósito no se usan) se respeta.
+- Cómo funciona: `scripts/galeria.js` (módulo común de Portfolios: `REGLAS/modulo-carga-de-fotos/`) detecta y `content.js` suma a `IMAGES` y `PROJECTS`; los grupos de `GROUPS` son **rutas exactas** (antes por prefijo); las salidas quedan en `assets/img/<grupo>/`; el manifest anota el tamaño y la fecha del original (`src`) para saber qué cambió. La plantilla omite el texto y «Rol» si un proyecto nuevo no los tiene.
+- Los videos se siguen declarando a mano (`VIDEOS`); los RAW (ARW, NEF) no se procesan solos.
 
 ## Diseños: probar un rediseño y volver atrás
 

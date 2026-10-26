@@ -24,24 +24,30 @@
      Para generar las versiones para la web:   npm run optimize:video
    ============================================================= */
 
-/* Carpetas de contenido/. Se busca por el comienzo del nombre. */
+/* Carpetas de contenido/: nombre corto → RUTA EXACTA (relativa a este proyecto, empieza con «./»).
+   Antes se buscaban por el comienzo del nombre; con carpetas nuevas que se agregan solas eso daba 2 coincidencias y rompía todo.
+   Las carpetas NUEVAS que aparecen en contenido/ no se declaran acá: se detectan solas (scripts/galeria.js, npm run fotos). */
+const SOURCE = "contenido";                     // carpeta de originales (no se mueve ni se publica)
 const GROUPS = {
-  "808":      "808 Trap Party",
-  "arena":    "Arena Gamer",
-  "modelaje": "MODELAJE",
-  "brujas":   "PRODUCCIONES CINEMATOGRÁFICAS_/_Brujas",
-  "sol":      "PRODUCCIONES CINEMATOGRÁFICAS_/_Cuando el sol",
-  // material nuevo (2026-10-14). Se busca a cualquier profundidad: el contenido ahora vive en «PORTFOLIO CHUNI._/…»
-  "baby":      "_Baby Amatista",
-  "basado":    "_Basado",
-  "prohibido": "_Prohibido",
-  "sound":     "Sound Urbano",
-  "artistas":  "FOTOGRAFÍA_/Artistas_",
-  "estudio":   "FOTOGRAFÍA_/Estudio",
-  "eventos":   "FOTOGRAFÍA_/Eventos sociales",
-  "marcas":    "FOTOGRAFÍA_/Marcas",
-  "actuacion": "MARCA PERSONAL/ACTUACI",
+  "808"       : "./contenido/PORTFOLIO CHUNI._/PRODUCCIÓN_/PRODUCCIÓN DE EVENTOS._/808 Trap Party. 10 de mayo y 10 de agosto 2024. _Producción, armado de guion y seteo completo para streaming multicamara, coordinación de Stands, Sponsors y Talentos._",
+  "arena"     : "./contenido/PORTFOLIO CHUNI._/PRODUCCIÓN_/PRODUCCIÓN DE EVENTOS._/Arena Gamer de Burger King. Octubre 2023 hasta Diciembre 2024. _Producción, armado de guiones, diseño de flyers y escenas para OBS, coordinadora de talentos e influencers, armado de idea creativa,  hosting y transmisión en vivo._",
+  "modelaje"  : "./contenido/PORTFOLIO CHUNI._/MARCA PERSONAL/MODELAJE Y CONTENT CREATOR",
+  "brujas"    : "./contenido/PORTFOLIO CHUNI._/PRODUCCIÓN_/PRODUCCIONES CINEMATOGRÁFICAS_/_Brujas, viudas y viejas_. Noviembre 2025. Cortometraje. _Facultad Nacional de La Plata. _Guión, dirección y coordinadora de casting_",
+  "sol"       : "./contenido/PORTFOLIO CHUNI._/PRODUCCIÓN_/PRODUCCIONES CINEMATOGRÁFICAS_/_Cuando el sol deja de salir_. Enero 2026. Microficción vertical._HACK MAFIZ MÁLAGA _producción, guión y dirección_",
+  "baby"      : "./contenido/PORTFOLIO CHUNI._/PRODUCCIÓN_/PRODUCCIONES AUDIOVISUALES/_Baby Amatista_. Agosto 2025. Roggero Alex._Producción, cámara, gaffer y coordinadora de post._",
+  "basado"    : "./contenido/PORTFOLIO CHUNI._/PRODUCCIÓN_/PRODUCCIONES AUDIOVISUALES/_Basado_. Septiembre 2026. Dennis133._Producción, realización, cámara y luces._",
+  "prohibido" : "./contenido/PORTFOLIO CHUNI._/PRODUCCIÓN_/PRODUCCIONES AUDIOVISUALES/_Prohibido_. Agosto 2024. Holly HH. _Producción._",
+  "sound"     : "./contenido/PORTFOLIO CHUNI._/PRODUCCIÓN_/PRODUCCIÓN DE EVENTOS._/Sound Urbano. Noviembre 2025. _Asistente de producción, seteo de streaming multicamara, armado de producción audiovisual y fotográfico._",
+  "artistas"  : "./contenido/PORTFOLIO CHUNI._/FOTOGRAFÍA_/Artistas_",
+  "estudio"   : "./contenido/PORTFOLIO CHUNI._/FOTOGRAFÍA_/Estudio",
+  "eventos"   : "./contenido/PORTFOLIO CHUNI._/FOTOGRAFÍA_/Eventos sociales",
+  "marcas"    : "./contenido/PORTFOLIO CHUNI._/FOTOGRAFÍA_/Marcas",
+  "actuacion" : "./contenido/PORTFOLIO CHUNI._/MARCA PERSONAL/ACTUACIÓN_",
 };
+/* Subcarpeta de assets/img/ donde queda la salida optimizada de cada grupo (por defecto, el nombre del grupo). */
+const DIRS = {};
+/* Dónde crea `npm run serie` una carpeta nueva (dentro de SOURCE). */
+const NEW_SERIES_DIR = "PORTFOLIO CHUNI._/FOTOGRAFÍA_";
 
 /* Todas las imágenes del sitio.
    g = grupo · f = archivo · alt = qué se ve (sin nombres de personas)
@@ -487,4 +493,28 @@ const FOOTER = {
   photoCredits: null,                           // ej: "Fotos: …" → null = «cambiar después»
 };
 
-module.exports = { GROUPS, IMAGES, VIDEOS, SITE, HERO, CATEGORIES, PROJECTS, FEATURED, ABOUT, TIMELINE, CREDITS, SERVICES, TOOLS, CONTACT, FOOTER };
+/* ---------- fotos nuevas y carpetas nuevas, sin tocar código (npm run fotos; ver scripts/galeria.js y contenido/LEEME.txt) ----------
+   · una foto nueva en una carpeta que ya existe se suma al FINAL de la galería del proyecto que más fotos de esa carpeta tiene;
+   · una carpeta nueva en contenido/ arma sola un proyecto nuevo de fotografía. Lo que ya estaba al empezar no se toca (fotos-vistas.json). */
+const { discover } = require("./scripts/galeria.js");
+const { resolveDir } = require("./scripts/lib.js");
+const ownerOf = (g) => {
+  let best = null, top = -1;
+  for (const p of PROJECTS) { const n = p.frames.filter((id) => IMAGES[id] && IMAGES[id].g === g).length; if (n > top) { top = n; best = p.slug; } }
+  return best;
+};
+const FOUND = discover({ root: __dirname, source: SOURCE, groups: GROUPS, images: IMAGES, ownerOf, resolveDir, defaults: { cat: "foto", kind: "Fotografía" }, takenSlugs: PROJECTS.map((p) => p.slug) });
+Object.assign(GROUPS, FOUND.groups);
+for (const x of FOUND.photos) IMAGES[x.id] = { g: x.g, f: x.f, alt: x.alt, ...(x.genericAlt ? { genericAlt: true } : {}) };
+for (const x of FOUND.photos) {
+  if (FOUND.projects.some((p) => p.slug === x.project)) continue;          // las de un proyecto nuevo ya vienen en su frames
+  const p = PROJECTS.find((q) => q.slug === x.project);
+  if (!p) throw new Error(`La foto nueva ${x.f} va al proyecto «${x.project}», que no existe (revisá serie.json → destino)`);
+  p.frames.push(x.id);
+}
+// este diseño no tiene desplegable: en un proyecto nuevo van todas en su galería
+for (const np of FOUND.projects) { np.frames = [...np.frames, ...(np.more || [])]; delete np.more; }
+PROJECTS.push(...FOUND.projects);
+for (const im of Object.values(IMAGES)) im.dir = DIRS[im.g] || im.g;
+
+module.exports = { SOURCE, NEW_SERIES_DIR, FOUND, GROUPS, IMAGES, VIDEOS, SITE, HERO, CATEGORIES, PROJECTS, FEATURED, ABOUT, TIMELINE, CREDITS, SERVICES, TOOLS, CONTACT, FOOTER };

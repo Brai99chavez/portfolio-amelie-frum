@@ -33,7 +33,10 @@ function resolveDir(base, spec) {
 /* Ruta real de una imagen declarada en content.js (grupo + nombre de archivo). */
 function resolveImage(contentDir, groups, img) {
   if (!groups[img.g]) throw new Error(`Grupo desconocido: "${img.g}"`);
-  const dir = resolveDir(contentDir, groups[img.g]);
+  const spec = groups[img.g];
+  // «./…» = ruta exacta relativa a este proyecto (así se declaran los grupos: una carpeta nueva con el mismo comienzo no los confunde)
+  const dir = spec.startsWith("./") ? path.join(path.resolve(__dirname, ".."), spec) : resolveDir(contentDir, spec);
+  if (!fs.existsSync(dir)) throw new Error(`No existe la carpeta ${dir}`);
   const hit = fs.readdirSync(dir).find((n) => nfc(n) === nfc(img.f));
   if (!hit) throw new Error(`No existe "${img.f}" en ${dir}`);
   return path.join(dir, hit);

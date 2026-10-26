@@ -11,7 +11,9 @@
     "diseno": "node scripts/disenos.js",
     "build:revision": "node scripts/build.js --revision",
     "zip": "node scripts/zip-dist.js",
-    "optimize:video": "node scripts/optimize-video.js"
+    "optimize:video": "node scripts/optimize-video.js",
+    "fotos": "node scripts/fotos.js",
+    "serie": "node scripts/fotos.js --nueva"
   },
   "license": "UNLICENSED",
   "dependencies": {

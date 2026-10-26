@@ -152,9 +152,12 @@ fs.writeFileSync(path.join(DIST, "assets", "js", "app.js"), js);
 // Solo se copia lo que el manifest referencia: un .webp suelto (de una corrida vieja) no viaja al deploy.
 const keep = new Set(Object.values(M).flatMap((m) => m.variants.map((v) => v.file)));
 const orphans = [];
-for (const f of fs.readdirSync(path.join(ROOT, "assets", "img"))) {
+const imgRoot = path.join(ROOT, "assets", "img");
+// las imágenes están en subcarpetas por trabajo (assets/img/<carpeta>/…): se recorre todo el árbol
+const imgFiles = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? imgFiles(path.join(d, e.name)) : [path.relative(imgRoot, path.join(d, e.name)).split(path.sep).join("/")]);
+for (const f of imgFiles(imgRoot)) {
   if (!f.endsWith(".webp")) continue;
-  if (keep.has(f)) fs.copyFileSync(path.join(ROOT, "assets", "img", f), path.join(DIST, "assets", "img", f));
+  if (keep.has(f)) { fs.mkdirSync(path.dirname(path.join(DIST, "assets", "img", f)), { recursive: true }); fs.copyFileSync(path.join(imgRoot, f), path.join(DIST, "assets", "img", f)); }
   else orphans.push(f);
 }
 if (orphans.length) console.warn(`  ⚠ ${orphans.length} .webp sin usar en assets/img (no se publican): corré npm run optimize para limpiarlos`);

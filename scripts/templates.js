@@ -176,9 +176,9 @@ function projectHTML(C, M, V, p, i) {
       <div class="project__body">
         <div class="project__info">
           ${p.where ? `<p class="project__where mono">${esc(p.where)}</p>` : ""}
-          <p class="project__text">${esc(p.text)}</p>
-          <p class="label">Rol</p>
-          <ul class="roles">${roles}</ul>
+          ${p.text ? `<p class="project__text">${esc(p.text)}</p>` : ""}
+          ${roles ? `<p class="label">Rol</p>
+          <ul class="roles">${roles}</ul>` : ""}
           ${p.credit ? `<p class="project__credit mono">${esc(p.credit)}</p>` : ""}
           ${p.watch ? `<div class="project__watch">${p.watch.video ? watchVideoHTML(C, V, p.watch, p.title) : button(p.watch)}</div>` : ""}
         </div>
